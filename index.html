@@ -16,28 +16,753 @@
         body {
             background-color: #0c0b10;
             color: #e2e8f0;
-            padding: 2rem 1rem;
+            padding: 1.5rem;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .admin-container, .login-container {
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        /* LOGIN STYLES */
+        /* ===== LOGIN ===== */
         .login-container {
             max-width: 420px;
+            width: 100%;
             background: #16141f;
             border: 1px solid #2d3748;
             border-radius: 16px;
             padding: 2.5rem;
         }
-        .login-container h1 {
-            font-size: 1.8rem;
+        .login-container .logo {
+            font-size: 2rem;
             text-align: center;
-            margin-bottom: 
+            margin-bottom: 0.5rem;
+        }
+        .login-container h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 0.3rem;
+            color: #fff;
+        }
+        .login-container .sub {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+        .login-container .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .login-container label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            color: #a0aec0;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 0.8rem;
+            background: #08070c;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .login-container input:focus {
+            border-color: #7952eb;
+        }
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7952eb, #5227cc);
+            color: #fff;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(121, 82, 235, 0.4);
+            transition: opacity 0.3s;
+            margin-top: 0.5rem;
+        }
+        .login-btn:hover { opacity: 0.9; }
+        .login-error {
+            background: rgba(229, 62, 62, 0.15);
+            border: 1px solid #e53e3e;
+            color: #fc8181;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        /* ===== ADMIN PANEL ===== */
+        .admin-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #2d3748;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        header h1 {
+            font-size: 1.6rem;
+            color: #fff;
+        }
+        header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        header .user-info span {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        .btn-logout {
+            background: #e53e3e;
+            color: #fff;
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .btn-logout:hover { opacity: 0.85; }
+
+        .btn-save {
+            background: linear-gradient(135deg, #7952eb, #5227cc);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(121, 82, 235, 0.4);
+            font-size: 0.95rem;
+        }
+        .btn-save:hover { opacity: 0.9; }
+
+        .section-card {
+            background: #16141f;
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+        }
+        .section-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-card h2 .badge {
+            font-size: 0.7rem;
+            background: #2d3748;
+            padding: 0.15rem 0.7rem;
+            border-radius: 20px;
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            font-weight: 600;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: #08070c;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #7952eb;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .item-row {
+            background: #08070c;
+            border: 1px solid #2d3748;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .item-row .btn-delete {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            float: right;
+        }
+        .item-row .btn-delete:hover { opacity: 0.85; }
+
+        .btn-add {
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            transition: opacity 0.3s;
+        }
+        .btn-add:hover { opacity: 0.85; }
+
+        .btn-danger {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            transition: opacity 0.3s;
+        }
+        .btn-danger:hover { opacity: 0.85; }
+
+        .alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #38a169;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 999;
+            max-width: 400px;
+        }
+        .alert.error {
+            background: #e53e3e;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        @media (max-width: 600px) {
+            .grid-2col { grid-template-columns: 1fr; }
+        }
+
+        .preview-box {
+            background: #08070c;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .status-msg {
+            color: #fbbf24;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- LOGIN -->
+    <!-- ============================================================ -->
+    <div class="login-container" id="loginContainer">
+        <div class="logo">🔐</div>
+        <h1>Panel de Control</h1>
+        <p class="sub">Acceso restringido para administradores</p>
+
+        <div class="form-group">
+            <label>👤 Usuario</label>
+            <input type="text" id="loginUser" placeholder="Ingresa tu usuario" value="Krhorkos3D">
+        </div>
+        <div class="form-group">
+            <label>🔑 Contraseña</label>
+            <input type="password" id="loginPass" placeholder="Ingresa tu contraseña">
+        </div>
+
+        <button class="login-btn" onclick="attemptLogin()">Ingresar al Panel</button>
+
+        <div class="login-error" id="loginError">❌ Usuario o contraseña incorrectos</div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ADMIN PANEL -->
+    <!-- ============================================================ -->
+    <div class="admin-container" id="adminContainer">
+
+        <header>
+            <h1>⚙️ Panel de Administración</h1>
+            <div class="user-info">
+                <span>👤 <span id="currentUserDisplay">Krhorkos3D</span></span>
+                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <!-- ===== CORREO DEL ADMIN ===== -->
+        <div class="section-card" style="border-color: #7952eb;">
+            <h2>📧 Correo de Contacto <span class="badge">Solo tú puedes modificarlo</span></h2>
+            <div class="form-group">
+                <label>Correo electrónico para soporte</label>
+                <input type="email" id="adminEmail" value="krhorkos3dstudioand2d@gmail.com">
+                <p class="status-msg">⚠️ Este correo es el que aparecerá en la página principal para que los clientes te contacten.</p>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN HERO ===== -->
+        <div class="section-card">
+            <h2>🏠 Sección Principal (Hero)</h2>
+            <div class="form-group">
+                <label>Etiqueta Superior</label>
+                <input type="text" id="heroBadge" placeholder="Ej. Estudio Creativo Digital">
+            </div>
+            <div class="form-group">
+                <label>Título Principal</label>
+                <input type="text" id="heroTitle" placeholder="Ej. Transformamos tus ideas...">
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="heroDesc" rows="3" placeholder="Descripción breve del estudio..."></textarea>
+            </div>
+        </div>
+
+        <!-- ===== INFORMACIÓN DE CONTACTO ===== -->
+        <div class="section-card">
+            <h2>📞 Información de Contacto</h2>
+            <div class="form-group">
+                <label>Correo Electrónico (para el sitio web)</label>
+                <input type="email" id="contactEmail" placeholder="contacto@negocio.com">
+            </div>
+            <div class="form-group">
+                <label>Teléfono / WhatsApp</label>
+                <input type="text" id="contactPhone" placeholder="+52 123 456 7890">
+            </div>
+            <div class="form-group">
+                <label>Dirección (opcional)</label>
+                <input type="text" id="contactAddress" placeholder="Calle, número, colonia, ciudad">
+            </div>
+        </div>
+
+        <!-- ===== SERVICIOS ===== -->
+        <div class="section-card">
+            <h2>🛠️ Servicios</h2>
+            <div id="services-list"></div>
+            <button class="btn-add" onclick="addService()">+ Agregar Servicio</button>
+        </div>
+
+        <!-- ===== PORTAFOLIO ===== -->
+        <div class="section-card">
+            <h2>📂 Proyectos del Portafolio</h2>
+            <div id="portfolio-list"></div>
+            <button class="btn-add" onclick="addPortfolio()">+ Agregar Proyecto</button>
+        </div>
+
+        <!-- ===== PRECIOS / PAQUETES ===== -->
+        <div class="section-card">
+            <h2>💰 Paquetes y Precios</h2>
+            <div id="pricing-list"></div>
+            <button class="btn-add" onclick="addPricing()">+ Agregar Paquete</button>
+        </div>
+
+        <!-- ===== REDES SOCIALES ===== -->
+        <div class="section-card">
+            <h2>🌐 Redes Sociales</h2>
+            <div id="social-list"></div>
+            <button class="btn-add" onclick="addSocial()">+ Agregar Red Social</button>
+        </div>
+
+        <!-- ===== BOTONES DE ACCIÓN ===== -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+            <button class="btn-save" onclick="saveAllData()" style="flex:1; min-width:200px;">💾 Guardar Todos los Cambios</button>
+            <button class="btn-danger" onclick="resetToDefaults()" style="flex:1; min-width:200px;">🔄 Restaurar Datos Predeterminados</button>
+        </div>
+
+        <!-- ===== VISTA PREVIA DE DATOS GUARDADOS ===== -->
+        <div class="section-card" style="margin-top: 1.5rem; border-color: #2d3748;">
+            <h2>📋 Vista Previa de Datos Guardados</h2>
+            <div class="preview-box" id="dataPreview">Los datos guardados se mostrarán aquí...</div>
+        </div>
+
+    </div>
+
+    <!-- ===== ALERTA ===== -->
+    <div class="alert" id="alert-msg">✅ ¡Cambios guardados con éxito!</div>
+
+    <script>
+        // ================================================================
+        // DATOS PREDETERMINADOS
+        // ================================================================
+        const defaultData = {
+            heroBadge: "Estudio Creativo Digital",
+            heroTitle: "Transformamos tus ideas en experiencias digitales excepcionales",
+            heroDesc: "Especialistas en desarrollo web, diseño de interfaces modernas y producción de elementos interactivos en 2D y 3D.",
+            contactEmail: "contacto@negocio.com",
+            contactPhone: "+52 123 456 7890",
+            contactAddress: "",
+            services: [
+                { title: "Desarrollo Web a Medida", desc: "Sitios optimizados, rápidos y totalmente responsivos." },
+                { title: "Diseño UI / UX Avanzado", desc: "Interfaces atrapantes y navegaciones intuitivas." },
+                { title: "Integración 2D y 3D", desc: "Modelos, animaciones e interactividad avanzada." }
+            ],
+            portfolio: [
+                { title: "Plataforma Interactiva 3D", desc: "Aplicación web con modelos en tiempo real.", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" },
+                { title: "Sitio Web Corporativo", desc: "Diseño minimalista enfocado en conversión.", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" }
+            ],
+            pricing: [
+                { name: "Página Básica", price: 800, desc: "Info, contacto, mapa + Panel" },
+                { name: "Página Estándar", price: 1200, desc: "Galería de imágenes + Panel" },
+                { name: "Página Profesional", price: 1600, desc: "Sección servicios + horarios + Panel" },
+                { name: "Página Avanzada", price: 2000, desc: "Diseño personalizado + Panel" },
+                { name: "Página Completa", price: 2800, desc: "Botones interactivos + Panel" },
+                { name: "Página Premium", price: 5500, desc: "Dominio propio + mantenimiento 1 año + Panel" }
+            ],
+            social: [
+                { name: "Instagram", url: "https://www.instagram.com/krhorkos3dstudioand2d/" },
+                { name: "YouTube", url: "https://www.youtube.com/@Krhorkos3DStudioAnd2D-b6g" },
+                { name: "X (Twitter)", url: "https://x.com/krhorkos3DAnd2D" },
+                { name: "Itch.io", url: "https://alex293517.itch.io/" }
+            ]
+        };
+
+        let currentData = {};
+        let isLoggedIn = false;
+
+        // ================================================================
+        // LOGIN
+        // ================================================================
+        function attemptLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (user === "Krhorkos3D" && pass === "@2lrQhNZn6@21Fs") {
+                isLoggedIn = true;
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminContainer').style.display = 'block';
+                document.getElementById('currentUserDisplay').textContent = user;
+                initAdmin();
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('adminContainer').style.display = 'none';
+            document.getElementById('loginPass').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        // Enter key para login
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !isLoggedIn) {
+                attemptLogin();
+            }
+        });
+
+        // ================================================================
+        // INICIALIZAR ADMIN
+        // ================================================================
+        function initAdmin() {
+            const stored = localStorage.getItem('site_content_admin');
+            if (stored) {
+                try {
+                    currentData = JSON.parse(stored);
+                } catch(e) {
+                    currentData = JSON.parse(JSON.stringify(defaultData));
+                }
+            } else {
+                currentData = JSON.parse(JSON.stringify(defaultData));
+            }
+
+            // Asegurar que todas las propiedades existan
+            if (!currentData.social) currentData.social = defaultData.social;
+            if (!currentData.pricing) currentData.pricing = defaultData.pricing;
+
+            // Cargar valores en los inputs
+            document.getElementById('heroBadge').value = currentData.heroBadge || '';
+            document.getElementById('heroTitle').value = currentData.heroTitle || '';
+            document.getElementById('heroDesc').value = currentData.heroDesc || '';
+            document.getElementById('contactEmail').value = currentData.contactEmail || '';
+            document.getElementById('contactPhone').value = currentData.contactPhone || '';
+            document.getElementById('contactAddress').value = currentData.contactAddress || '';
+            document.getElementById('adminEmail').value = currentData.adminEmail || 'krhorkos3dstudioand2d@gmail.com';
+
+            renderServices();
+            renderPortfolio();
+            renderPricing();
+            renderSocial();
+            updatePreview();
+        }
+
+        // ================================================================
+        // RENDERIZAR LISTAS
+        // ================================================================
+        function renderServices() {
+            const container = document.getElementById('services-list');
+            container.innerHTML = '';
+            currentData.services.forEach((s, i) => {
+                container.innerHTML += `
+                    <div class="item-row">
+                        <button class="btn-delete" onclick="removeItem('services', ${i})">Eliminar</button>
+                        <div class="form-group">
+                            <label>Título del Servicio</label>
+                            <input type="text" value="${escapeHtml(s.title)}" onchange="currentData.services[${i}].title = this.value; updatePreview();">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea onchange="currentData.services[${i}].desc = this.value; updatePreview();">${escapeHtml(s.desc)}</textarea>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPortfolio() {
+            const container = document.getElementById('portfolio-list');
+            container.innerHTML = '';
+            currentData.portfolio.forEach((p, i) => {
+                container.innerHTML += `
+                    <div class="item-row">
+                        <button class="btn-delete" onclick="removeItem('portfolio', ${i})">Eliminar</button>
+                        <div class="form-group">
+                            <label>Título del Proyecto</label>
+                            <input type="text" value="${escapeHtml(p.title)}" onchange="currentData.portfolio[${i}].title = this.value; updatePreview();">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <input type="text" value="${escapeHtml(p.desc)}" onchange="currentData.portfolio[${i}].desc = this.value; updatePreview();">
+                        </div>
+                        <div class="form-group">
+                            <label>URL de la Imagen</label>
+                            <input type="text" value="${escapeHtml(p.image)}" onchange="currentData.portfolio[${i}].image = this.value; updatePreview();">
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPricing() {
+            const container = document.getElementById('pricing-list');
+            container.innerHTML = '';
+            currentData.pricing.forEach((p, i) => {
+                container.innerHTML += `
+                    <div class="item-row">
+                        <button class="btn-delete" onclick="removeItem('pricing', ${i})">Eliminar</button>
+                        <div class="form-group">
+                            <label>Nombre del Paquete</label>
+                            <input type="text" value="${escapeHtml(p.name)}" onchange="currentData.pricing[${i}].name = this.value; updatePreview();">
+                        </div>
+                        <div class="form-group">
+                            <label>Precio (MXN)</label>
+                            <input type="text" value="${p.price}" onchange="currentData.pricing[${i}].price = parseFloat(this.value) || 0; updatePreview();">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <input type="text" value="${escapeHtml(p.desc)}" onchange="currentData.pricing[${i}].desc = this.value; updatePreview();">
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderSocial() {
+            const container = document.getElementById('social-list');
+            container.innerHTML = '';
+            currentData.social.forEach((s, i) => {
+                container.innerHTML += `
+                    <div class="item-row">
+                        <button class="btn-delete" onclick="removeItem('social', ${i})">Eliminar</button>
+                        <div class="form-group">
+                            <label>Nombre de la Red</label>
+                            <input type="text" value="${escapeHtml(s.name)}" onchange="currentData.social[${i}].name = this.value; updatePreview();">
+                        </div>
+                        <div class="form-group">
+                            <label>URL</label>
+                            <input type="text" value="${escapeHtml(s.url)}" onchange="currentData.social[${i}].url = this.value; updatePreview();">
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // ================================================================
+        // AGREGAR / ELIMINAR ITEMS
+        // ================================================================
+        function addService() {
+            currentData.services.push({ title: "Nuevo Servicio", desc: "Descripción del servicio." });
+            renderServices();
+            updatePreview();
+        }
+
+        function addPortfolio() {
+            currentData.portfolio.push({ 
+                title: "Nuevo Proyecto", 
+                desc: "Descripción del proyecto.", 
+                image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" 
+            });
+            renderPortfolio();
+            updatePreview();
+        }
+
+        function addPricing() {
+            currentData.pricing.push({ name: "Nuevo Paquete", price: 1000, desc: "Descripción del paquete." });
+            renderPricing();
+            updatePreview();
+        }
+
+        function addSocial() {
+            currentData.social.push({ name: "Nueva Red", url: "https://ejemplo.com" });
+            renderSocial();
+            updatePreview();
+        }
+
+        function removeItem(type, index) {
+            if (currentData[type] && currentData[type].length > 1) {
+                currentData[type].splice(index, 1);
+            } else {
+                alert("No puedes eliminar el último elemento de esta lista.");
+                return;
+            }
+            // Re-renderizar según el tipo
+            if (type === 'services') renderServices();
+            else if (type === 'portfolio') renderPortfolio();
+            else if (type === 'pricing') renderPricing();
+            else if (type === 'social') renderSocial();
+            updatePreview();
+        }
+
+        // ================================================================
+        // GUARDAR DATOS
+        // ================================================================
+        function saveAllData() {
+            // Recoger datos de los inputs principales
+            currentData.heroBadge = document.getElementById('heroBadge').value;
+            currentData.heroTitle = document.getElementById('heroTitle').value;
+            currentData.heroDesc = document.getElementById('heroDesc').value;
+            currentData.contactEmail = document.getElementById('contactEmail').value;
+            currentData.contactPhone = document.getElementById('contactPhone').value;
+            currentData.contactAddress = document.getElementById('contactAddress').value;
+            currentData.adminEmail = document.getElementById('adminEmail').value;
+
+            // Guardar en localStorage
+            localStorage.setItem('site_content_admin', JSON.stringify(currentData));
+
+            // También guardar en el mismo formato que usa la página principal
+            const mainSiteData = {
+                heroBadge: currentData.heroBadge,
+                heroTitle: currentData.heroTitle,
+                heroDesc: currentData.heroDesc,
+                email: currentData.contactEmail,
+                services: currentData.services,
+                portfolio: currentData.portfolio
+            };
+            localStorage.setItem('site_content', JSON.stringify(mainSiteData));
+
+            showAlert("✅ ¡Todos los cambios guardados con éxito!");
+            updatePreview();
+        }
+
+        // ================================================================
+        // RESTAURAR DATOS PREDETERMINADOS
+        // ================================================================
+        function resetToDefaults() {
+            if (confirm("¿Estás seguro de que quieres restaurar todos los datos a los valores predeterminados? Se perderán todos los cambios.")) {
+                currentData = JSON.parse(JSON.stringify(defaultData));
+                localStorage.setItem('site_content_admin', JSON.stringify(currentData));
+                initAdmin();
+                showAlert("🔄 Datos restaurados a los valores predeterminados.");
+            }
+        }
+
+        // ================================================================
+        // ACTUALIZAR VISTA PREVIA
+        // ================================================================
+        function updatePreview() {
+            const preview = document.getElementById('dataPreview');
+            try {
+                const dataToShow = {
+                    heroBadge: currentData.heroBadge || '',
+                    heroTitle: currentData.heroTitle || '',
+                    heroDesc: currentData.heroDesc || '',
+                    contactEmail: currentData.contactEmail || '',
+                    contactPhone: currentData.contactPhone || '',
+                    services: currentData.services?.length || 0,
+                    portfolio: currentData.portfolio?.length || 0,
+                    pricing: currentData.pricing?.length || 0,
+                    social: currentData.social?.length || 0
+                };
+                preview.textContent = JSON.stringify(dataToShow, null, 2);
+            } catch(e) {
+                preview.textContent = "Error al mostrar la vista previa.";
+            }
+        }
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function showAlert(message, isError = false) {
+            const alertEl = document.getElementById('alert-msg');
+            alertEl.textContent = message;
+            alertEl.className = 'alert' + (isError ? ' error' : '');
+            alertEl.style.display = 'block';
+            clearTimeout(alertEl._timeout);
+            alertEl._timeout = setTimeout(() => {
+                alertEl.style.display = 'none';
+            }, 4000);
+        }
+
+        // ================================================================
+        // INICIALIZAR
+        // ================================================================
+        // Verificar si ya hay una sesión activa (por si se recarga la página)
+        // No mantenemos sesión persistente por seguridad, siempre pide login.
+    </script>
+</body>
+</html>
