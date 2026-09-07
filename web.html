@@ -3,322 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krhorkos3DStudioAnd2D — Juegos y Recursos</title>
+    <title>Panel de Control | Krhorkos Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            scroll-behavior: smooth;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        :root {
-            --fondo-oscuro: #0f0f1a;
-            --fondo-card: #1a1a2e;
-            --primario: #6c5ce7;
-            --secundario: #00cec9;
-            --texto: #f0f0f0;
-            --texto-claro: #b0b0c0;
-            --borde: #2e2e4a;
-            --brillo: rgba(108, 92, 231, 0.3);
-        }
+
         body {
-            background: linear-gradient(135deg, var(--fondo-oscuro), #1a1a2e);
-            color: var(--texto);
-            min-height: 100vh;
+            background-color: #0c0b10;
+            color: #e2e8f0;
+            padding: 2rem 1rem;
         }
-        .pantalla-bienvenida {
-            height: 100vh;
+
+        .admin-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #2d3748;
         }
-        .particulas {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            background-image: 
-                radial-gradient(circle at 20% 30%, var(--primario) 1px, transparent 1px),
-                radial-gradient(circle at 80% 70%, var(--secundario) 1px, transparent 1px);
-            background-size: 80px 80px;
-            animation: fondo-mueve 20s linear infinite;
-        }
-        @keyframes fondo-mueve {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(80px, 80px); }
-        }
-        .bienvenida-contenido {
-            z-index: 1;
-            animation: aparecer 1.5s ease-out;
-        }
-        @keyframes aparecer {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            background: linear-gradient(90deg, var(--primario), var(--secundario));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #7952eb, #5227cc);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(121, 82, 235, 0.4);
+        }
+
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+
+        .section-card {
+            background: #16141f;
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            color: #00f2fe;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: #08070c;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .item-row {
+            background: #08070c;
+            border: 1px solid #2d3748;
+            padding: 1rem;
+            border-radius: 8px;
             margin-bottom: 1rem;
+            position: relative;
         }
-        .subtitulo {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            color: var(--texto-claro);
-            margin-bottom: 3rem;
-            max-width: 600px;
-        }
-        .boton-entrar {
-            padding: 1rem 3rem;
-            font-size: 1.2rem;
-            background: linear-gradient(90deg, var(--primario), var(--secundario));
+
+        .btn-delete {
+            background: #e53e3e;
             color: white;
             border: none;
-            border-radius: 50px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px var(--brillo);
+            font-size: 0.8rem;
+            float: right;
         }
-        .boton-entrar:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 40px var(--primario);
-        }
-        .navegacion {
-            position: sticky;
-            top: 0;
-            background: rgba(15, 15, 26, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--borde);
-            padding: 1rem 0;
-            z-index: 100;
-            display: none;
-        }
-        .navegacion.mostrar {
-            display: block;
-        }
-        .nav-lista {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .nav-enlace {
-            color: var(--texto-claro);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        .nav-enlace:hover {
+
+        .btn-add {
+            background: #2b6cb0;
             color: white;
-            background: var(--brillo);
-        }
-        .oculto { display: none; }
-        .contenedor-principal {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: none;
-        }
-        .contenedor-principal.mostrar {
-            display: block;
-            animation: aparecer 0.8s ease-out;
-        }
-        .seccion {
-            margin-bottom: 5rem;
-            padding-top: 2rem;
-        }
-        h2 {
-            font-size: 2rem;
-            color: var(--secundario);
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--borde);
-            padding-bottom: 0.5rem;
-        }
-        .cuadricula {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        .tarjeta {
-            background: var(--fondo-card);
-            border: 1px solid var(--borde);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .tarjeta:hover {
-            border-color: var(--primario);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.15);
-        }
-        .tarjeta h3 {
-            color: var(--primario);
-            margin-bottom: 0.5rem;
-        }
-        .tarjeta p {
-            color: var(--texto-claro);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-        .boton-descarga {
-            display: inline-block;
+            border: none;
             padding: 0.6rem 1.2rem;
-            background: var(--primario);
-            color: white;
-            text-decoration: none;
             border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
-        .boton-descarga:hover {
-            background: var(--secundario);
-            color: #000;
-        }
-        .caja-donacion {
-            background: linear-gradient(135deg, #2e1065, #1e3a5f);
-            border-radius: 16px;
-            padding: 2.5rem;
-            text-align: center;
-            border: 1px solid var(--primario);
-        }
-        .boton-donar {
-            display: inline-block;
-            margin-top: 1.2rem;
-            padding: 0.9rem 2.5rem;
-            background: linear-gradient(90deg, #e74c3c, #f39c12);
+
+        .alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #38a169;
             color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        .boton-donar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(231, 76, 60, 0.4);
-        }
-        .caja-creditos {
-            background: var(--fondo-card);
-            border: 1px solid var(--borde);
-            border-radius: 12px;
-            padding: 2rem;
-            line-height: 1.8;
-            color: var(--texto-claro);
-        }
-        .caja-creditos strong {
-            color: var(--secundario);
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--borde);
-            color: var(--texto-claro);
-            margin-top: 3rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
-    <div id="pantalla-bienvenida" class="pantalla-bienvenida">
-        <div class="particulas"></div>
-        <div class="bienvenida-contenido">
-            <h1>🎮 Krhorkos3DStudioAnd2D</h1>
-            <p class="subtitulo">Desarrollando mundos, experiencias y sueños en 3D y 2D.<br>Bienvenido a mi espacio.</p>
-            <button class="boton-entrar" onclick="entrarSitio()">Entrar al Sitio</button>
+
+    <div class="admin-container">
+        <header>
+            <h1>Panel de Administración</h1>
+            <button class="btn-save" onclick="saveAllData()">Guardar Cambios</button>
+        </header>
+
+        <div class="section-card">
+            <h2>Sección Principal (Hero)</h2>
+            <div class="form-group">
+                <label>Etiqueta Superior</label>
+                <input type="text" id="heroBadge">
+            </div>
+            <div class="form-group">
+                <label>Título Principal</label>
+                <input type="text" id="heroTitle">
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="heroDesc"></textarea>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Información de Contacto</h2>
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="text" id="contactEmail">
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Servicios</h2>
+            <div id="services-list"></div>
+            <button class="btn-add" onclick="addService()">+ Agregar Servicio</button>
+        </div>
+
+        <div class="section-card">
+            <h2>Proyectos del Portafolio</h2>
+            <div id="portfolio-list"></div>
+            <button class="btn-add" onclick="addPortfolio()">+ Agregar Proyecto</button>
         </div>
     </div>
 
-    <nav id="navegacion" class="navegacion">
-        <ul class="nav-lista">
-            <li><a href="#juegos" class="nav-enlace">🎮 Juegos</a></li>
-            <li><a href="#assets3d" class="nav-enlace">🧊 Assets 3D</a></li>
-            <li><a href="#assets2d" class="nav-enlace">🎨 Assets 2D</a></li>
-            <li><a href="#donaciones" class="nav-enlace">❤️ Donaciones</a></li>
-            <li><a href="#creditos" class="nav-enlace">⭐ Créditos</a></li>
-        </ul>
-    </nav>
-
-    <main id="contenido" class="contenedor-principal">
-        <section id="juegos" class="seccion">
-            <h2>🎮 Mis Juegos</h2>
-            <div class="cuadricula">
-                <div class="tarjeta">
-                    <h3>SilentBlock</h3>
-                    <p>Juego de terror psicológico. Encuentra la llave y escapa de la casa antes de que sea demasiado tarde...</p>
-                    <a href="https://alex293517.itch.io/silentblock-10" target="_blank" class="boton-descarga">⬇️ Descargar / Ver</a>
-                </div>
-                <div class="tarjeta">
-                    <h3>Próximamente...</h3>
-                    <p>Nuevos proyectos en desarrollo. ¡Pronto más noticias!</p>
-                    <span style="color:gray;">Disponible pronto</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="assets3d" class="seccion">
-            <h2>🧊 Recursos / Assets 3D</h2>
-            <div class="cuadricula">
-                <div class="tarjeta">
-                    <h3>Modelos 3D — Próximamente</h3>
-                    <p>Modelos listos para usar en tus proyectos. Gratis y libres.</p>
-                    <span style="color:gray;">Próximamente</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="assets2d" class="seccion">
-            <h2>🎨 Recursos / Assets 2D</h2>
-            <div class="cuadricula">
-                <div class="tarjeta">
-                    <h3>Recursos 2D — Próximamente</h3>
-                    <p>Texturas, íconos y gráficos 2D para tus proyectos.</p>
-                    <span style="color:gray;">Próximamente</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="donaciones" class="seccion">
-            <h2>❤️ Apóyame / Donaciones</h2>
-            <div class="caja-donacion">
-                <h3>Tu apoyo me ayuda a seguir creando 💜</h3>
-                <p>Si disfrutas de mis proyectos y quieres ayudarme a seguir mejorando y creando más contenido, cualquier aportación es infinitamente agradecida. Gracias por creer en mi trabajo.</p>
-                <a href="#" class="boton-donar">💜 Donar aquí</a>
-            </div>
-        </section>
-
-        <section id="creditos" class="seccion">
-            <h2>⭐ Créditos y Agradecimientos</h2>
-            <div class="caja-creditos">
-                <p><strong>Krhorkos3DStudioAnd2D</strong> — Un proyecto hecho por una sola persona, con mucho esfuerzo y dedicación.</p>
-                <br>
-                <p>Quiero agradecer de corazón a todas las personas que me han apoyado, de una forma u otra, para que pueda seguir creando. Cada descarga, cada visita y cada palabra de aliento me da fuerzas para continuar.</p>
-                <p>Especialmente a mi familia, por ser mi motor. Y a ti, por estar aquí y ver lo que hago.</p>
-                <br>
-                <p><em>— Hecho con 💜 por Óscar</em></p>
-            </div>
-        </section>
-
-        <footer>
-            <p>© 2026 Krhorkos3DStudioAnd2D — Todos los derechos reservados</p>
-            <p style="margin-top:0.5rem; font-size:0.9rem;">Sitio creado por mí, paso a paso, con esfuerzo y cariño.</p>
-        </footer>
-    </main>
+    <div class="alert" id="alert-msg">¡Cambios guardados con éxito! Actualiza la página web principal para ver los cambios.</div>
 
     <script>
-        function entrarSitio() {
-            document.getElementById("pantalla-bienvenida").classList.add("oculto");
-            document.getElementById("navegacion").classList.add("mostrar");
-            document.getElementById("contenido").classList.add("mostrar");
-            window.scrollTo(0, 0);
+        const defaultData = {
+            heroBadge: "Estudio Creativo Digital",
+            heroTitle: "Transformamos tus ideas en experiencias digitales excepcionales",
+            heroDesc: "Especialistas en desarrollo web, diseño de interfaces modernas y producción de elementos interactivos en 2D y 3D.",
+            email: "krhorkos3dstudioand2d@gmail.com",
+            services: [
+                {
+                    title: "Desarrollo Web a Medida",
+                    desc: "Sitios optimizados, rápidos y totalmente responsivos adaptados a las necesidades específicas de tu negocio o proyecto.",
+                    icon: "<svg viewBox='0 0 24 24'><path d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H9v-2h6v2zm3-5H6V8h12v5z'/></svg>"
+                },
+                {
+                    title: "Diseño UI / UX Avanzado",
+                    desc: "Interfaces atrapantes y navegaciones intuitivas enfocadas en ofrecer la mejor experiencia visual y de usuario.",
+                    icon: "<svg viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>"
+                },
+                {
+                    title: "Integración 2D y 3D",
+                    desc: "Incorporación de modelos, animaciones e interactividad avanzada para destacar sobre cualquier competencia.",
+                    icon: "<svg viewBox='0 0 24 24'><path d='M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.57 21.82C12.41 21.91 12.21 21.96 12 21.96C11.79 21.96 11.59 21.91 11.43 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.43 2.18C11.59 2.09 11.79 2.04 12 2.04C12.21 2.04 12.41 2.09 12.57 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5Z'/></svg>"
+                }
+            ],
+            portfolio: [
+                {
+                    title: "Plataforma Interactiva 3D",
+                    desc: "Aplicación web con modelos en tiempo real y alta optimización.",
+                    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Sitio Web Corporativo",
+                    desc: "Diseño minimalista enfocado en conversión y velocidad.",
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Experiencia Web 2D / Videojuegos",
+                    desc: "Portafolio dinámico con elementos visuales animados.",
+                    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80"
+                }
+            ]
+        };
+
+        let currentData = {};
+
+        function initAdmin() {
+            const stored = localStorage.getItem('site_content');
+            currentData = stored ? JSON.parse(stored) : defaultData;
+
+            document.getElementById('heroBadge').value = currentData.heroBadge;
+            document.getElementById('heroTitle').value = currentData.heroTitle;
+            document.getElementById('heroDesc').value = currentData.heroDesc;
+            document.getElementById('contactEmail').value = currentData.email;
+
+            renderServices();
+            renderPortfolio();
         }
+
+        function renderServices() {
+            const container = document.getElementById('services-list');
+            container.innerHTML = '';
+            currentData.services.forEach((s, i) => {
+                container.innerHTML += `
+                    <div class="item-row">
+                        <button class="btn-delete" onclick="removeService(${i})">Eliminar</button>
+                        <div class="form-group">
+                            <label>Título del Servicio</label>
+                            <input type="text" value="${s.title}" onchange="currentData.services[${i}].title = this.value">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea onchange="currentData.services[${i}].desc = this.value">${s.desc}</textarea>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPortfolio() {
+            const container = document.getElementById('portfolio-list');
+            container.innerHTML = '';
+            currentData.portfolio.forEach((p, i) => {
+                container.innerHTML += `
+                    <div class="item-row">
+                        <button class="btn-delete" onclick="removePortfolio(${i})">Eliminar</button>
+                        <div class="form-group">
+                            <label>Título del Proyecto</label>
+                            <input type="text" value="${p.title}" onchange="currentData.portfolio[${i}].title = this.value">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <input type="text" value="${p.desc}" onchange="currentData.portfolio[${i}].desc = this.value">
+                        </div>
+                        <div class="form-group">
+                            <label>URL de la Imagen</label>
+                            <input type="text" value="${p.image}" onchange="currentData.portfolio[${i}].image = this.value">
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addService() {
+            currentData.services.push({
+                title: "Nuevo Servicio",
+                desc: "Descripción del servicio.",
+                icon: "<svg viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/></svg>"
+            });
+            renderServices();
+        }
+
+        function removeService(index) {
+            currentData.services.splice(index, 1);
+            renderServices();
+        }
+
+        function addPortfolio() {
+            currentData.portfolio.push({
+                title: "Nuevo Proyecto",
+                desc: "Descripción del proyecto.",
+                image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
+            });
+            renderPortfolio();
+        }
+
+        function removePortfolio(index) {
+            currentData.portfolio.splice(index, 1);
+            renderPortfolio();
+        }
+
+        function saveAllData() {
+            currentData.heroBadge = document.getElementById('heroBadge').value;
+            currentData.heroTitle = document.getElementById('heroTitle').value;
+            currentData.heroDesc = document.getElementById('heroDesc').value;
+            currentData.email = document.getElementById('contactEmail').value;
+
+            localStorage.setItem('site_content', JSON.stringify(currentData));
+
+            const alert = document.getElementById('alert-msg');
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', initAdmin);
     </script>
 </body>
 </html>
