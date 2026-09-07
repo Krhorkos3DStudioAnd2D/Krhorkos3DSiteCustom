@@ -1,332 +1,233 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control | Krhorkos Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desarrollo Web Profesional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root[data-theme="dark"] { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; --border: #334155; }
+    :root[data-theme="light"] { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --accent: #0284c7; --border: #e2e8f0; }
+    :root[data-theme="emerald"] { --bg: #022c22; --card: #064e3b; --text: #ecfdf5; --accent: #34d399; --border: #047857; }
+    :root[data-theme="sunset"] { --bg: #2d1215; --card: #4c1d24; --text: #fff1f2; --accent: #fb7185; --border: #9f1239; }
+    :root[data-theme="purple"] { --bg: #1e1b4b; --card: #312e81; --text: #eef2ff; --accent: #818cf8; --border: #4338ca; }
+    :root[data-theme="amber"] { --bg: #1f1206; --card: #451a03; --text: #fef3c7; --accent: #fbbf24; --border: #78350f; }
+    :root[data-theme="cyber"] { --bg: #000000; --card: #111111; --text: #00ff66; --accent: #00e5ff; --border: #00ff66; }
+    :root[data-theme="nordic"] { --bg: #2e3440; --card: #3b4252; --text: #eceff4; --accent: #88c0d0; --border: #4c566a; }
 
-        body {
-            background-color: #0c0b10;
-            color: #e2e8f0;
-            padding: 2rem 1rem;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 15px; }
+    h1 { font-size: 1.8rem; font-weight: 700; }
 
-        .admin-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    .theme-selector { display: flex; align-items: center; gap: 10px; }
+    select { padding: 8px 12px; border-radius: 6px; background: var(--card); color: var(--text); border: 1px solid var(--border); cursor: pointer; outline: none; }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #2d3748;
-        }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 16px; }
 
-        h1 {
-            font-size: 1.8rem;
-            color: #fff;
-        }
+    .grid-pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .price-card { border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; }
+    .price { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin: 10px 0; }
 
-        .btn-save {
-            background: linear-gradient(135deg, #7952eb, #5227cc);
-            color: #fff;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(121, 82, 235, 0.4);
-        }
+    form { display: flex; flex-direction: column; gap: 12px; }
+    label { font-size: 0.9rem; font-weight: 600; }
+    input, textarea, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; }
+    .radio-group { display: flex; gap: 20px; margin: 5px 0; }
+    .radio-option { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+    #address-field { display: none; }
 
-        .btn-save:hover {
-            opacity: 0.9;
-        }
+    button, .btn { background: var(--accent); color: #000; border: none; padding: 12px 20px; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; text-align: center; text-decoration: none; display: inline-block; }
+    button:hover, .btn:hover { opacity: 0.9; }
 
-        .section-card {
-            background: #16141f;
-            border: 1px solid #2d3748;
-            border-radius: 12px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-        }
+    .instructions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .instructions { grid-template-columns: 1fr; } }
+    .info-box { border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
 
-        .section-card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            color: #00f2fe;
-        }
+    .alert { background: rgba(255, 0, 0, 0.1); border-left: 4px solid #ef4444; padding: 12px; margin-top: 12px; font-size: 0.85rem; border-radius: 0 6px 6px 0; }
 
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-size: 0.9rem;
-            color: #a0aec0;
-        }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 0.8rem;
-            background: #08070c;
-            border: 1px solid #2d3748;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 0.95rem;
-        }
-
-        textarea {
-            resize: vertical;
-            height: 80px;
-        }
-
-        .item-row {
-            background: #08070c;
-            border: 1px solid #2d3748;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .btn-delete {
-            background: #e53e3e;
-            color: white;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            float: right;
-        }
-
-        .btn-add {
-            background: #2b6cb0;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        .alert {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #38a169;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-    </style>
+    .password-generator { display: flex; gap: 10px; flex-wrap: wrap; }
+    .password-display { flex: 1; font-family: monospace; font-size: 1.1rem; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; text-align: center; min-width: 150px; }
+    .pwd-btn { flex: 1; min-width: 120px; }
+  </style>
 </head>
 <body>
 
-    <div class="admin-container">
-        <header>
-            <h1>Panel de Administración</h1>
-            <button class="btn-save" onclick="saveAllData()">Guardar Cambios</button>
-        </header>
+  <div class="container">
+    <header>
+      <h1>Diseño Web Profesional</h1>
+      <div class="theme-selector">
+        <label for="themeSelect">🎨 Tema:</label>
+        <select id="themeSelect" onchange="changeTheme(this.value)">
+          <option value="dark">Dark Mode</option>
+          <option value="light">Light Mode</option>
+          <option value="emerald">Emerald</option>
+          <option value="sunset">Sunset</option>
+          <option value="purple">Purple</option>
+          <option value="amber">Amber</option>
+          <option value="cyber">Cyberpunk</option>
+          <option value="nordic">Nordic</option>
+        </select>
+      </div>
+    </header>
 
-        <div class="section-card">
-            <h2>Sección Principal (Hero)</h2>
-            <div class="form-group">
-                <label>Etiqueta Superior</label>
-                <input type="text" id="heroBadge">
-            </div>
-            <div class="form-group">
-                <label>Título Principal</label>
-                <input type="text" id="heroTitle">
-            </div>
-            <div class="form-group">
-                <label>Descripción</label>
-                <textarea id="heroDesc"></textarea>
-            </div>
+    <section>
+      <h2>💰 Paquetes y Precios</h2>
+      <div class="grid-pricing">
+        <div class="price-card">
+          <h3>Web Muy Básica</h3>
+          <div class="price">$500 MXN</div>
         </div>
-
-        <div class="section-card">
-            <h2>Información de Contacto</h2>
-            <div class="form-group">
-                <label>Correo Electrónico</label>
-                <input type="text" id="contactEmail">
-            </div>
+        <div class="price-card">
+          <h3>Web Medio Básica</h3>
+          <div class="price">$1,000 MXN</div>
         </div>
-
-        <div class="section-card">
-            <h2>Servicios</h2>
-            <div id="services-list"></div>
-            <button class="btn-add" onclick="addService()">+ Agregar Servicio</button>
+        <div class="price-card">
+          <h3>Web Básica</h3>
+          <div class="price">$1,200 MXN</div>
         </div>
-
-        <div class="section-card">
-            <h2>Proyectos del Portafolio</h2>
-            <div id="portfolio-list"></div>
-            <button class="btn-add" onclick="addPortfolio()">+ Agregar Proyecto</button>
+        <div class="price-card">
+          <h3>Web Muy Medio Compleja</h3>
+          <div class="price">$1,500 MXN</div>
         </div>
-    </div>
+        <div class="price-card">
+          <h3>Web Medio Compleja</h3>
+          <div class="price">$2,000 MXN</div>
+        </div>
+        <div class="price-card">
+          <h3>Web Compleja</h3>
+          <div class="price">$5,000 MXN</div>
+        </div>
+      </div>
+    </section>
 
-    <div class="alert" id="alert-msg">¡Cambios guardados con éxito! Actualiza la página web principal para ver los cambios.</div>
+    <section>
+      <h2>📩 Solicitar Sitio Web</h2>
+      <form id="contactForm" onsubmit="sendEmail(event)">
+        <div>
+          <label for="businessName">Nombre del negocio:</label>
+          <input type="text" id="businessName" required>
+        </div>
+        <div>
+          <label for="fullName">Nombre de la persona (Solo dos nombres):</label>
+          <input type="text" id="fullName" placeholder="Ej. Juan Carlos" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)$" title="Ingresa exactamente dos nombres" required>
+        </div>
+        <div>
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" required>
+        </div>
+        <div>
+          <label for="whatsapp">Número de WhatsApp:</label>
+          <input type="tel" id="whatsapp" required>
+        </div>
+        <div>
+          <label>¿Es un negocio físico?</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="isPhysical" value="si" onclick="toggleAddress(true)"> Sí</label>
+            <label class="radio-option"><input type="radio" name="isPhysical" value="no" onclick="toggleAddress(false)" checked> No</label>
+          </div>
+        </div>
+        <div id="address-field">
+          <label for="address">Dirección completa:</label>
+          <input type="text" id="address">
+        </div>
+        <div>
+          <label for="message">Mensaje o detalles del servicio:</label>
+          <textarea id="message" rows="4" required></textarea>
+        </div>
+        <button type="submit">Enviar Correo</button>
+      </form>
+    </section>
 
-    <script>
-        const defaultData = {
-            heroBadge: "Estudio Creativo Digital",
-            heroTitle: "Transformamos tus ideas en experiencias digitales excepcionales",
-            heroDesc: "Especialistas en desarrollo web, diseño de interfaces modernas y producción de elementos interactivos en 2D y 3D.",
-            email: "krhorkos3dstudioand2d@gmail.com",
-            services: [
-                {
-                    title: "Desarrollo Web a Medida",
-                    desc: "Sitios optimizados, rápidos y totalmente responsivos adaptados a las necesidades específicas de tu negocio o proyecto.",
-                    icon: "<svg viewBox='0 0 24 24'><path d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H9v-2h6v2zm3-5H6V8h12v5z'/></svg>"
-                },
-                {
-                    title: "Diseño UI / UX Avanzado",
-                    desc: "Interfaces atrapantes y navegaciones intuitivas enfocadas en ofrecer la mejor experiencia visual y de usuario.",
-                    icon: "<svg viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>"
-                },
-                {
-                    title: "Integración 2D y 3D",
-                    desc: "Incorporación de modelos, animaciones e interactividad avanzada para destacar sobre cualquier competencia.",
-                    icon: "<svg viewBox='0 0 24 24'><path d='M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.57 21.82C12.41 21.91 12.21 21.96 12 21.96C11.79 21.96 11.59 21.91 11.43 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.43 2.18C11.59 2.09 11.79 2.04 12 2.04C12.21 2.04 12.41 2.09 12.57 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5Z'/></svg>"
-                }
-            ],
-            portfolio: [
-                {
-                    title: "Plataforma Interactiva 3D",
-                    desc: "Aplicación web con modelos en tiempo real y alta optimización.",
-                    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
-                },
-                {
-                    title: "Sitio Web Corporativo",
-                    desc: "Diseño minimalista enfocado en conversión y velocidad.",
-                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
-                },
-                {
-                    title: "Experiencia Web 2D / Videojuegos",
-                    desc: "Portafolio dinámico con elementos visuales animados.",
-                    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80"
-                }
-            ]
-        };
+    <section>
+      <h2>📖 Instrucciones de Uso</h2>
+      <div class="instructions">
+        <div class="info-box">
+          <h3>🌐 Página Pública</h3>
+          <p>Es la interfaz visible para todos los clientes en internet. Muestra la información de tu negocio, productos, servicios y métodos de contacto de forma clara y atractiva.</p>
+        </div>
+        <div class="info-box">
+          <h3>🔐 Panel Privado</h3>
+          <p>Es la plataforma de administración. Permite al propietario iniciar sesión de forma segura para modificar textos, imágenes, precios y horarios en tiempo real sin escribir código.</p>
+        </div>
+      </div>
 
-        let currentData = {};
+      <div class="alert">
+        ⚠️ <strong>Aviso:</strong> No me hago responsable si alguien más ingresa con su usuario y contraseña al panel privado. Es responsabilidad del dueño mantener seguros sus datos de acceso.
+      </div>
+      <div class="alert">
+        ⚠️ <strong>Aviso Final:</strong> Una vez entregados los dos sitios web, no me hago responsable de ningún cambio, problema o uso que se le dé. El servicio concluye al momento de la entrega.
+      </div>
+    </section>
 
-        function initAdmin() {
-            const stored = localStorage.getItem('site_content');
-            currentData = stored ? JSON.parse(stored) : defaultData;
+    <section>
+      <h2>🔐 Generador de Contraseñas Seguras</h2>
+      <div class="password-generator">
+        <input type="text" id="passwordDisplay" class="password-display" readonly placeholder="Haz clic en Generar">
+        <button type="button" class="pwd-btn" onclick="generatePassword()">Generar</button>
+        <button type="button" class="pwd-btn" onclick="copyPassword()">Copiar</button>
+      </div>
+    </section>
+  </div>
 
-            document.getElementById('heroBadge').value = currentData.heroBadge;
-            document.getElementById('heroTitle').value = currentData.heroTitle;
-            document.getElementById('heroDesc').value = currentData.heroDesc;
-            document.getElementById('contactEmail').value = currentData.email;
+  <script>
+    function changeTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+    }
 
-            renderServices();
-            renderPortfolio();
-        }
+    function toggleAddress(show) {
+      const field = document.getElementById('address-field');
+      const input = document.getElementById('address');
+      field.style.display = show ? 'block' : 'none';
+      input.required = show;
+    }
 
-        function renderServices() {
-            const container = document.getElementById('services-list');
-            container.innerHTML = '';
-            currentData.services.forEach((s, i) => {
-                container.innerHTML += `
-                    <div class="item-row">
-                        <button class="btn-delete" onclick="removeService(${i})">Eliminar</button>
-                        <div class="form-group">
-                            <label>Título del Servicio</label>
-                            <input type="text" value="${s.title}" onchange="currentData.services[${i}].title = this.value">
-                        </div>
-                        <div class="form-group">
-                            <label>Descripción</label>
-                            <textarea onchange="currentData.services[${i}].desc = this.value">${s.desc}</textarea>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+    function sendEmail(event) {
+      event.preventDefault();
+      
+      const business = document.getElementById('businessName').value;
+      const name = document.getElementById('fullName').value;
+      const email = document.getElementById('email').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+      const isPhysical = document.querySelector('input[name="isPhysical"]:checked').value;
+      const address = isPhysical === 'si' ? document.getElementById('address').value : 'N/A (Negocio Digital)';
+      const message = document.getElementById('message').value;
 
-        function renderPortfolio() {
-            const container = document.getElementById('portfolio-list');
-            container.innerHTML = '';
-            currentData.portfolio.forEach((p, i) => {
-                container.innerHTML += `
-                    <div class="item-row">
-                        <button class="btn-delete" onclick="removePortfolio(${i})">Eliminar</button>
-                        <div class="form-group">
-                            <label>Título del Proyecto</label>
-                            <input type="text" value="${p.title}" onchange="currentData.portfolio[${i}].title = this.value">
-                        </div>
-                        <div class="form-group">
-                            <label>Descripción</label>
-                            <input type="text" value="${p.desc}" onchange="currentData.portfolio[${i}].desc = this.value">
-                        </div>
-                        <div class="form-group">
-                            <label>URL de la Imagen</label>
-                            <input type="text" value="${p.image}" onchange="currentData.portfolio[${i}].image = this.value">
-                        </div>
-                    </div>
-                `;
-            });
-        }
+      const mailtoRecipient = "krhorkos3dstudioand2d@gmail.com";
+      const subject = encodeURIComponent(`Solicitud de Sitio Web - ${business}`);
+      const body = encodeURIComponent(
+        `Solicitud de servicio web:\n\n` +
+        `• Nombre del negocio: ${business}\n` +
+        `• Nombre del cliente: ${name}\n` +
+        `• Correo: ${email}\n` +
+        `• WhatsApp: ${whatsapp}\n` +
+        `• Negocio físico: ${isPhysical.toUpperCase()}\n` +
+        `• Dirección: ${address}\n\n` +
+        `• Mensaje/Detalles:\n${message}`
+      );
 
-        function addService() {
-            currentData.services.push({
-                title: "Nuevo Servicio",
-                desc: "Descripción del servicio.",
-                icon: "<svg viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/></svg>"
-            });
-            renderServices();
-        }
+      window.location.href = `mailto:${mailtoRecipient}?subject=${subject}&body=${body}`;
+    }
 
-        function removeService(index) {
-            currentData.services.splice(index, 1);
-            renderServices();
-        }
+    function generatePassword() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+      let password = "";
+      for (let i = 0; i < 15; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById('passwordDisplay').value = password;
+    }
 
-        function addPortfolio() {
-            currentData.portfolio.push({
-                title: "Nuevo Proyecto",
-                desc: "Descripción del proyecto.",
-                image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
-            });
-            renderPortfolio();
-        }
-
-        function removePortfolio(index) {
-            currentData.portfolio.splice(index, 1);
-            renderPortfolio();
-        }
-
-        function saveAllData() {
-            currentData.heroBadge = document.getElementById('heroBadge').value;
-            currentData.heroTitle = document.getElementById('heroTitle').value;
-            currentData.heroDesc = document.getElementById('heroDesc').value;
-            currentData.email = document.getElementById('contactEmail').value;
-
-            localStorage.setItem('site_content', JSON.stringify(currentData));
-
-            const alert = document.getElementById('alert-msg');
-            alert.style.display = 'block';
-            setTimeout(() => { alert.style.display = 'none'; }, 3000);
-        }
-
-        document.addEventListener('DOMContentLoaded', initAdmin);
-    </script>
+    function copyPassword() {
+      const pwdInput = document.getElementById('passwordDisplay');
+      if (!pwdInput.value) return;
+      
+      navigator.clipboard.writeText(pwdInput.value).then(() => {
+        alert("Contraseña copiada al portapapeles");
+      });
+    }
+  </script>
 </body>
 </html>
