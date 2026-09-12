@@ -44,7 +44,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -57,7 +57,7 @@
       border-radius: 12px;
       padding: 30px;
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
     }
     .modal-box h3 { color: var(--accent); margin-bottom: 15px; text-align: center; }
     .modal-box input { margin-bottom: 15px; font-size: 1rem; }
@@ -70,16 +70,27 @@
       background: var(--card);
       border: 2px solid var(--accent);
       border-radius: 12px;
-      padding: 20px;
+      padding: 24px;
       margin-bottom: 24px;
       display: none;
     }
-    .admin-panel h3 { color: var(--accent); margin-bottom: 15px; }
-    .admin-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; align-items: center; }
-    .admin-row label { min-width: 120px; font-weight: 600; font-size: 0.9rem; }
-    .admin-row input, .admin-row textarea { flex: 1; min-width: 200px; }
+    .admin-panel h3 { color: var(--accent); margin-bottom: 18px; font-size: 1.2rem; }
+    .admin-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; align-items: center; }
+    .admin-row label { min-width: 130px; font-weight: 600; font-size: 0.9rem; }
+    .admin-row input, .admin-row textarea { flex: 1; min-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
     .admin-save-btn { background: #10b981; color: #fff; margin-top: 10px; }
     .admin-logout-btn { background: #ef4444; color: #fff; margin-left: 10px; margin-top: 10px; }
+    .admin-upload { border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; cursor: pointer; margin: 10px 0; }
+    .admin-upload:hover { background: rgba(56,189,248,0.1); }
+
+    /* GALERÍA DE IMÁGENES — SOLO SE MUESTRA SI HAY FOTOS */
+    .gallery-section { display: none; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-top: 16px; }
+    .gallery-img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); }
+    .gallery-img:hover { border-color: var(--accent); }
+    .admin-img-item { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 8px; background: var(--bg); border-radius: 6px; }
+    .admin-img-preview { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+    .admin-img-delete { background: #ef4444; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
 
     section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
     h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 16px; }
@@ -182,32 +193,40 @@
 
     <!-- ⚙️ PANEL DE EDICIÓN (SOLO VISIBLE SI INGRESA BIEN) -->
     <div class="admin-panel" id="adminPanel">
-      <h3>⚙️ Panel de Edición — Cambios en vivo</h3>
+      <h3>⚙️ Panel de Edición — Cambios en vivo y permanentes</h3>
       
       <div class="admin-row">
         <label>Título del sitio:</label>
-        <input type="text" id="editTitle" oninput="applyChanges()">
+        <input type="text" id="editTitle">
       </div>
 
       <div class="admin-row">
         <label>Paquete 1 - Precio:</label>
-        <input type="text" id="editPkg1Price" oninput="applyChanges()">
+        <input type="text" id="editPkg1Price">
       </div>
       <div class="admin-row">
         <label>Paquete 2 - Precio:</label>
-        <input type="text" id="editPkg2Price" oninput="applyChanges()">
+        <input type="text" id="editPkg2Price">
       </div>
       <div class="admin-row">
         <label>Paquete 3 - Precio:</label>
-        <input type="text" id="editPkg3Price" oninput="applyChanges()">
+        <input type="text" id="editPkg3Price">
       </div>
 
       <div class="admin-row">
         <label>Aviso GitHub:</label>
-        <textarea id="editGithubNotice" rows="3" oninput="applyChanges()"></textarea>
+        <textarea id="editGithubNotice" rows="3"></textarea>
       </div>
 
-      <button class="admin-save-btn" onclick="saveChanges()">💾 Guardar Cambios</button>
+      <!-- 📸 SECCIÓN DE IMÁGENES EN EL PANEL -->
+      <h3 style="margin-top:20px; border-top: 1px solid var(--border); padding-top:15px;">📸 Gestión de Imágenes</h3>
+      <div class="admin-upload" onclick="document.getElementById('imageUpload').click()">
+        ⬆️ Haz clic para subir una imagen desde tu equipo
+      </div>
+      <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="uploadImage(event)">
+      <div id="adminImageList" style="margin-top:10px;"></div>
+
+      <button class="admin-save-btn" onclick="guardarTodo()">💾 GUARDAR TODO</button>
       <button class="admin-logout-btn" onclick="logoutAdmin()">🚪 Cerrar Sesión</button>
     </div>
 
@@ -215,21 +234,21 @@
       <h2>💰 Catálogo de Paquetes y Precios</h2>
       <div class="grid-pricing">
 
-        <!-- PAQUETE 1 - $800 -->
+        <!-- PAQUETE 1 -->
         <button type="button" class="price-card" onclick="selectPackage(this, '🟢 Página Básica con Panel', document.getElementById('pkg1Price').textContent, '✅ Página de Inicio ✅ Quiénes Somos ✅ Contacto con formulario ✅ Mapa de ubicación ✅ Panel privado de edición')">
           <h3>🟢 Página Básica con Panel</h3>
           <div class="price" id="pkg1Price">$800 MXN</div>
           <p class="includes">Lo esencial para empezar</p>
         </button>
 
-        <!-- PAQUETE 2 - $2,000 -->
+        <!-- PAQUETE 2 -->
         <button type="button" class="price-card" onclick="selectPackage(this, '🟡 Página Avanzada con Panel', document.getElementById('pkg2Price').textContent, '✅ Todo lo del paquete básico ✅ Galería de imágenes ✅ Sección de Servicios ✅ Horarios de atención ✅ Diseño personalizado a tu gusto ✅ Panel privado completo')">
           <h3>🟡 Página Avanzada con Panel</h3>
           <div class="price" id="pkg2Price">$2,000 MXN</div>
           <p class="includes">Completo y personalizado</p>
         </button>
 
-        <!-- PAQUETE 3 - $5,500 -->
+        <!-- PAQUETE 3 -->
         <button type="button" class="price-card" onclick="selectPackage(this, '🔴 Página Premium con Panel', document.getElementById('pkg3Price').textContent, '✅ Todo lo de los paquetes anteriores ✅ Dominio propio personalizado ✅ Hospedaje incluido ✅ Mantenimiento por 1 año ✅ Soporte prioritario ✅ Panel de edición completo')">
           <h3>🔴 Página Premium con Panel</h3>
           <div class="price" id="pkg3Price">$5,500 MXN</div>
@@ -238,13 +257,18 @@
 
       </div>
 
-      <!-- RECUADRO QUE MUESTRA EXACTAMENTE LO QUE TRAE EL PAQUETE SELECCIONADO -->
       <div class="alert alert-info" id="selectedPackageDisplay" style="display:none; margin-top:20px;">
         <h4 style="margin-bottom:10px; color:var(--accent);">✅ PAQUETE SELECCIONADO:</h4>
         <strong id="pkgName"></strong><br>
         <span style="font-size:1.2rem; font-weight:bold; color:var(--accent);" id="pkgPrice"></span>
         <div style="margin-top:10px; line-height:1.8;" id="pkgIncludes"></div>
       </div>
+    </section>
+
+    <!-- 📸 SECCIÓN DE IMÁGENES EN EL SITIO — SOLO APARECE SI HAY FOTOS -->
+    <section class="gallery-section" id="gallerySection">
+      <h2>📸 Galería de Imágenes</h2>
+      <div class="gallery-grid" id="galleryGrid"></div>
     </section>
 
     <section>
@@ -286,7 +310,6 @@
       </form>
     </section>
 
-    <!-- SECCIÓN DE COMENTARIOS PÚBLICOS -->
     <section>
       <h2>💬 Comentarios de Clientes</h2>
       <form id="commentForm" onsubmit="addComment(event)">
@@ -383,6 +406,7 @@
     // Cambiar tema
     function changeTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
+      guardarTodo();
     }
 
     // Mostrar/ocultar dirección
@@ -421,57 +445,107 @@
       if (input === ADMIN_PASSWORD) {
         closeAdminLogin();
         document.getElementById('adminPanel').style.display = 'block';
-        loadCurrentValues();
-        alert("✅ ¡Acceso concedido! Ahora puedes editar el sitio.");
+        cargarValoresEnPanel();
+        renderizarListaImagenesAdmin();
+        alert("✅ ¡Acceso concedido! Edita y pulsa GUARDAR.");
       } else {
         alert("❌ Contraseña incorrecta. No puedes entrar.");
         document.getElementById('adminPasswordInput').value = '';
       }
     }
 
-    // 📋 CARGAR VALORES ACTUALES EN EL PANEL
-    function loadCurrentValues() {
+    // 📸 ARREGLO PARA ALMACENAR IMÁGENES
+    let listaImagenes = [];
+
+    // 📸 SUBIR IMAGEN
+    function uploadImage(event) {
+      const archivo = event.target.files[0];
+      if (!archivo) return;
+      const lector = new FileReader();
+      lector.onload = function(e) {
+        const imagenBase64 = e.target.result;
+        listaImagenes.push(imagenBase64);
+        renderizarGaleria();
+        renderizarListaImagenesAdmin();
+      };
+      lector.readAsDataURL(archivo);
+      event.target.value = '';
+    }
+
+    // 📸 MOSTRAR GALERÍA EN EL SITIO — SOLO SI HAY IMÁGENES
+    function renderizarGaleria() {
+      const seccion = document.getElementById('gallerySection');
+      const cuadricula = document.getElementById('galleryGrid');
+      
+      if (listaImagenes.length === 0) {
+        seccion.style.display = 'none';
+        cuadricula.innerHTML = '';
+        return;
+      }
+      
+      seccion.style.display = 'block';
+      cuadricula.innerHTML = listaImagenes.map(img => 
+        `<img src="${img}" class="gallery-img" alt="Imagen de la galería">`
+      ).join('');
+    }
+
+    // 📸 LISTA DE IMÁGENES EN EL PANEL PARA BORRAR
+    function renderizarListaImagenesAdmin() {
+      const lista = document.getElementById('adminImageList');
+      if (listaImagenes.length === 0) {
+        lista.innerHTML = '<p style="opacity:0.7; font-size:0.9rem;">No hay imágenes subidas todavía.</p>';
+        return;
+      }
+      lista.innerHTML = listaImagenes.map((img, indice) => `
+        <div class="admin-img-item">
+          <img src="${img}" class="admin-img-preview">
+          <span>Imagen ${indice + 1}</span>
+          <button class="admin-img-delete" onclick="borrarImagen(${indice})">🗑️ Borrar</button>
+        </div>
+      `).join('');
+    }
+
+    // 📸 BORRAR IMAGEN
+    function borrarImagen(indice) {
+      if (confirm("¿Borrar esta imagen?")) {
+        listaImagenes.splice(indice, 1);
+        renderizarGaleria();
+        renderizarListaImagenesAdmin();
+      }
+    }
+
+    // 💾 GUARDAR TODO EN ALMACENAMIENTO PERMANENTE
+    function guardarTodo() {
+      const datos = {
+        titulo: document.getElementById('editTitle').value,
+        pkg1: document.getElementById('editPkg1Price').value,
+        pkg2: document.getElementById('editPkg2Price').value,
+        pkg3: document.getElementById('editPkg3Price').value,
+        aviso: document.getElementById('editGithubNotice').value,
+        imagenes: listaImagenes,
+        tema: document.getElementById('themeSelect').value,
+        fecha: new Date().toLocaleString('es-MX')
+      };
+      localStorage.setItem('configSitioWeb', JSON.stringify(datos));
+      
+      // Aplicar cambios al instante
+      if (datos.titulo) document.getElementById('siteTitle').textContent = datos.titulo;
+      if (datos.pkg1) document.getElementById('pkg1Price').textContent = datos.pkg1;
+      if (datos.pkg2) document.getElementById('pkg2Price').textContent = datos.pkg2;
+      if (datos.pkg3) document.getElementById('pkg3Price').textContent = datos.pkg3;
+      if (datos.aviso) document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + datos.aviso;
+      if (datos.tema) changeTheme(datos.tema);
+      
+      alert("✅ ¡TODO GUARDADO! Los cambios quedan aunque recargues la página.");
+    }
+
+    // 📋 CARGAR VALORES EN EL PANEL
+    function cargarValoresEnPanel() {
       document.getElementById('editTitle').value = document.getElementById('siteTitle').textContent;
       document.getElementById('editPkg1Price').value = document.getElementById('pkg1Price').textContent;
       document.getElementById('editPkg2Price').value = document.getElementById('pkg2Price').textContent;
       document.getElementById('editPkg3Price').value = document.getElementById('pkg3Price').textContent;
       document.getElementById('editGithubNotice').value = document.getElementById('githubNoticeBox').innerHTML.replace(/<[^>]*>/g, '');
-    }
-
-    // ⚡ APLICAR CAMBIOS EN VIVO AL INSTANTE
-    function applyChanges() {
-      // Cambiar título
-      if (document.getElementById('editTitle').value) {
-        document.getElementById('siteTitle').textContent = document.getElementById('editTitle').value;
-      }
-      // Cambiar precios
-      if (document.getElementById('editPkg1Price').value) {
-        document.getElementById('pkg1Price').textContent = document.getElementById('editPkg1Price').value;
-      }
-      if (document.getElementById('editPkg2Price').value) {
-        document.getElementById('pkg2Price').textContent = document.getElementById('editPkg2Price').value;
-      }
-      if (document.getElementById('editPkg3Price').value) {
-        document.getElementById('pkg3Price').textContent = document.getElementById('editPkg3Price').value;
-      }
-      // Cambiar aviso de GitHub
-      if (document.getElementById('editGithubNotice').value) {
-        document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + document.getElementById('editGithubNotice').value;
-      }
-    }
-
-    // 💾 GUARDAR EN ALMACENAMIENTO PERMANENTE
-    function saveChanges() {
-      const cambios = {
-        titulo: document.getElementById('editTitle').textContent,
-        pkg1: document.getElementById('pkg1Price').textContent,
-        pkg2: document.getElementById('pkg2Price').textContent,
-        pkg3: document.getElementById('pkg3Price').textContent,
-        aviso: document.getElementById('editGithubNotice').value,
-        fecha: new Date().toLocaleString('es-MX')
-      };
-      localStorage.setItem('cambiosSitio', JSON.stringify(cambios));
-      alert("✅ ¡Cambios guardados y aplicados al instante!");
     }
 
     // 🚪 CERRAR SESIÓN
@@ -480,16 +554,32 @@
       alert("🔑 Sesión cerrada.");
     }
 
-    // 🔄 CARGAR CAMBIOS GUARDADOS AL ABRIR LA PÁGINA
-    function cargarCambiosGuardados() {
-      const guardado = localStorage.getItem('cambiosSitio');
-      if (guardado) {
+    // 🔄 CARGAR TODO LO GUARDADO AL ABRIR LA PÁGINA
+    function cargarTodoAlIniciar() {
+      const guardado = localStorage.getItem('configSitioWeb');
+      if (!guardado) return;
+      
+      try {
         const datos = JSON.parse(guardado);
+        
+        // Aplicar textos
         if (datos.titulo) document.getElementById('siteTitle').textContent = datos.titulo;
         if (datos.pkg1) document.getElementById('pkg1Price').textContent = datos.pkg1;
         if (datos.pkg2) document.getElementById('pkg2Price').textContent = datos.pkg2;
         if (datos.pkg3) document.getElementById('pkg3Price').textContent = datos.pkg3;
         if (datos.aviso) document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + datos.aviso;
+        if (datos.tema) {
+          document.getElementById('themeSelect').value = datos.tema;
+          changeTheme(datos.tema);
+        }
+        
+        // Cargar imágenes
+        if (datos.imagenes && Array.isArray(datos.imagenes)) {
+          listaImagenes = datos.imagenes;
+          renderizarGaleria();
+        }
+      } catch (e) {
+        console.log("Error al cargar:", e);
       }
     }
 
@@ -573,13 +663,13 @@
       document.getElementById('commentForm').reset();
     }
 
-    // INICIO — Cargar todo al abrir la página
+    // ⚡ INICIO — CARGAR TODO AL ABRIR LA PÁGINA
     document.addEventListener('DOMContentLoaded', () => {
-      cargarCambiosGuardados();
+      cargarTodoAlIniciar();
       renderComments(loadComments());
     });
 
-    // Permitir entrar presionando Enter en la contraseña
+    // Permitir entrar con Enter en la contraseña
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && document.getElementById('adminLoginModal').style.display === 'flex') {
         verifyPassword();
