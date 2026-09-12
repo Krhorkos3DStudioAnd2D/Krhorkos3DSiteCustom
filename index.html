@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desarrollo Web Profesional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root[data-theme="dark"] { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; --border: #334155; }
+    :root[data-theme="light"] { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --accent: #0284c7; --border: #e2e8f0; }
+    :root[data-theme="emerald"] { --bg: #022c22; --card: #064e3b; --text: #ecfdf5; --accent: #34d399; --border: #047857; }
+    :root[data-theme="sunset"] { --bg: #2d1215; --card: #4c1d24; --text: #fff1f2; --accent: #fb7185; --border: #9f1239; }
+    :root[data-theme="purple"] { --bg: #1e1b4b; --card: #312e81; --text: #eef2ff; --accent: #818cf8; --border: #4338ca; }
+    :root[data-theme="amber"] { --bg: #1f1206; --card: #451a03; --text: #fef3c7; --accent: #fbbf24; --border: #78350f; }
+    :root[data-theme="cyber"] { --bg: #000000; --card: #111111; --text: #00ff66; --accent: #00e5ff; --border: #00ff66; }
+    :root[data-theme="nordic"] { --bg: #2e3440; --card: #3b4252; --text: #eceff4; --accent: #88c0d0; --border: #4c566a; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 15px; }
+    h1 { font-size: 1.8rem; font-weight: 700; }
+    .theme-selector { display: flex; align-items: center; gap: 10px; }
+    select { padding: 8px 12px; border-radius: 6px; background: var(--card); color: var(--text); border: 1px solid var(--border); cursor: pointer; outline: none; }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 16px; }
+    .grid-pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    
+    .price-card { 
+      background: var(--card); 
+      border: 2px solid var(--border); 
+      border-radius: 8px; 
+      padding: 20px; 
+      text-align: center; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      cursor: pointer;
+      color: var(--text);
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    .price-card:hover { border-color: var(--accent); }
+    .price-card.active { 
+      border-color: var(--accent); 
+      box-shadow: 0 0 12px var(--accent);
+      background-color: var(--bg);
+    }
+    .price-card h3 { font-size: 1.1rem; }
+    .price { font-size: 1.6rem; font-weight: 700; color: var(--accent); margin: 10px 0; }
+    .includes { font-size: 0.9rem; opacity: 0.9; }
+    form { display: flex; flex-direction: column; gap: 12px; }
+    label { font-size: 0.9rem; font-weight: 600; }
+    input, textarea, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; }
+    .radio-group { display: flex; gap: 20px; margin: 5px 0; }
+    .radio-option { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+    #address-field { display: none; }
+    button, .btn { background: var(--accent); color: #000; border: none; padding: 12px 20px; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; text-align: center; text-decoration: none; display: inline-block; }
+    button:hover, .btn:hover { opacity: 0.9; }
+    .instructions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .instructions { grid-template-columns: 1fr; } }
+    .info-box { border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
+    .alert { background: rgba(255, 0, 0, 0.1); border-left: 4px solid #ef4444; padding: 15px; margin-top: 15px; border-radius: 0 6px 6px 0; }
+    .alert-warning { background: rgba(234, 179, 8, 0.15); border-left: 4px solid #eab308; }
+    .alert-info { background: rgba(56, 189, 248, 0.1); border-left: 4px solid #38bdf8; }
+    .password-generator { display: flex; gap: 10px; flex-wrap: wrap; }
+    .password-display { flex: 1; font-family: monospace; font-size: 1.1rem; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; text-align: center; min-width: 150px; }
+    .pwd-btn { flex: 1; min-width: 120px; }
+    .browser-guide-title { font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
+    .guide-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .guide-container { grid-template-columns: 1fr; } }
+    .guide-box { border: 2px solid var(--accent); padding: 20px; border-radius: 10px; background: var(--bg); }
+    .guide-box h3 { font-size: 1.4rem; color: var(--accent); margin-bottom: 12px; text-align: center; }
+    .guide-box ol { padding-left: 20px; font-size: 1.15rem; line-height: 1.8; }
+    .guide-box li { margin-bottom: 10px; }
+    .terms-section { background: var(--card); border: 2px solid var(--accent); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .terms-section h2 { color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+    .terms-section ul { padding-left: 20px; margin: 15px 0; }
+    .terms-section li { margin-bottom: 10px; line-height: 1.7; }
+    .highlight { color: var(--accent); font-weight: 600; }
+    .service-closure { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 15px; border-radius: 0 6px 6px 0; margin: 15px 0; }
+    .comment { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 12px; background: var(--bg); }
+    .comment-author { font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+    .comment-date { font-size: 0.8rem; opacity: 0.7; margin-bottom: 8px; }
+    .comment-text { line-height: 1.5; }
+    .comments-list { margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Diseño Web Profesional</h1>
+      <div class="theme-selector">
+        <label for="themeSelect">🎨 Tema:</label>
+        <select id="themeSelect" onchange="changeTheme(this.value)">
+          <option value="dark">Dark Mode</option>
+          <option value="light">Light Mode</option>
+          <option value="emerald">Emerald</option>
+          <option value="sunset">Sunset</option>
+          <option value="purple">Purple</option>
+          <option value="amber">Amber</option>
+          <option value="cyber">Cyberpunk</option>
+          <option value="nordic">Nordic</option>
+        </select>
+      </div>
+    </header>
+
+    <section>
+      <h2>💰 Catálogo de Paquetes y Precios</h2>
+      <div class="grid-pricing">
+
+        <!-- PAQUETE 1 - $800 -->
+        <button type="button" class="price-card" onclick="selectPackage(this, '🟢 Página Básica con Panel', '$800 MXN', '✅ Página de Inicio ✅ Quiénes Somos ✅ Contacto con formulario ✅ Mapa de ubicación ✅ Panel privado de edición')">
+          <h3>🟢 Página Básica con Panel</h3>
+          <div class="price">$800 MXN</div>
+          <p class="includes">Lo esencial para empezar</p>
+        </button>
+
+        <!-- PAQUETE 2 - $2,000 -->
+        <button type="button" class="price-card" onclick="selectPackage(this, '🟡 Página Avanzada con Panel', '$2,000 MXN', '✅ Todo lo del paquete básico ✅ Galería de imágenes ✅ Sección de Servicios ✅ Horarios de atención ✅ Diseño personalizado a tu gusto ✅ Panel privado completo')">
+          <h3>🟡 Página Avanzada con Panel</h3>
+          <div class="price">$2,000 MXN</div>
+          <p class="includes">Completo y personalizado</p>
+        </button>
+
+        <!-- PAQUETE 3 - $5,500 -->
+        <button type="button" class="price-card" onclick="selectPackage(this, '🔴 Página Premium con Panel', '$5,500 MXN', '✅ Todo lo de los paquetes anteriores ✅ Dominio propio personalizado ✅ Hospedaje incluido ✅ Mantenimiento por 1 año ✅ Soporte prioritario ✅ Panel de edición completo')">
+          <h3>🔴 Página Premium con Panel</h3>
+          <div class="price">$5,500 MXN</div>
+          <p class="includes">Todo incluido + 1 año de servicio</p>
+        </button>
+
+      </div>
+
+      <!-- RECUADRO QUE MUESTRA EXACTAMENTE LO QUE TRAE EL PAQUETE SELECCIONADO -->
+      <div class="alert alert-info" id="selectedPackageDisplay" style="display:none; margin-top:20px;">
+        <h4 style="margin-bottom:10px; color:var(--accent);">✅ PAQUETE SELECCIONADO:</h4>
+        <strong id="pkgName"></strong><br>
+        <span style="font-size:1.2rem; font-weight:bold; color:var(--accent);" id="pkgPrice"></span>
+        <div style="margin-top:10px; line-height:1.8;" id="pkgIncludes"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📩 Solicitar Sitio Web</h2>
+      <form id="contactForm" onsubmit="sendForm(event)">
+        <input type="hidden" id="selectedPackageInput" name="paquete_seleccionado" required>
+        <div>
+          <label for="businessName">Nombre del negocio:</label>
+          <input type="text" name="businessName" id="businessName" required>
+        </div>
+        <div>
+          <label for="fullName">Nombre de la persona (Solo dos nombres):</label>
+          <input type="text" name="fullName" id="fullName" placeholder="Ej. Juan Carlos" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)$" title="Ingresa exactamente dos nombres" required>
+        </div>
+        <div>
+          <label for="email">Correo electrónico:</label>
+          <input type="email" name="email" id="email" required>
+        </div>
+        <div>
+          <label for="whatsapp">Número de WhatsApp:</label>
+          <input type="tel" name="whatsapp" id="whatsapp" required>
+        </div>
+        <div>
+          <label>¿Es un negocio físico?</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="isPhysical" value="si" onclick="toggleAddress(true)"> Sí</label>
+            <label class="radio-option"><input type="radio" name="isPhysical" value="no" onclick="toggleAddress(false)" checked> No</label>
+          </div>
+        </div>
+        <div id="address-field">
+          <label for="address">Dirección completa:</label>
+          <input type="text" name="address" id="address">
+        </div>
+        <div>
+          <label for="message">Mensaje o detalles del servicio:</label>
+          <textarea name="message" id="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" id="submitBtn">Enviar Solicitud</button>
+      </form>
+    </section>
+
+    <!-- SECCIÓN DE COMENTARIOS PÚBLICOS -->
+    <section>
+      <h2>💬 Comentarios de Clientes</h2>
+      <form id="commentForm" onsubmit="addComment(event)">
+        <div>
+          <label for="commenterName">Tu Nombre:</label>
+          <input type="text" id="commenterName" required>
+        </div>
+        <div>
+          <label for="commentText">Tu Comentario:</label>
+          <textarea id="commentText" rows="3" required></textarea>
+        </div>
+        <button type="submit">Publicar Comentario</button>
+      </form>
+      <div class="comments-list" id="commentsList"></div>
+    </section>
+
+    <section>
+      <h2>📖 Instrucciones de Uso</h2>
+      <div class="instructions">
+        <div class="info-box">
+          <h3>🌐 Página Pública</h3>
+          <p>Es la interfaz visible para todos los clientes en internet. Muestra la información de tu negocio, servicios y formas de contacto.</p>
+        </div>
+        <div class="info-box">
+          <h3>🔐 Panel Privado</h3>
+          <p>Plataforma de administración para modificar textos, imágenes, precios y horarios en tiempo real sin escribir código.</p>
+        </div>
+      </div>
+      <div class="alert">
+        ⚠️ <strong>Aviso:</strong> No me hago responsable si alguien más ingresa con su usuario y contraseña al panel privado. Es responsabilidad del dueño mantener seguros sus datos de acceso.
+      </div>
+      <div class="alert">
+        ⚠️ <strong>Aviso Final:</strong> Una vez entregados los dos sitios web, no me hago responsable de ningún cambio, problema o uso que se le dé. El servicio concluye al momento de la entrega.
+      </div>
+      <div class="alert">
+        ⚠️ <strong>Aviso sobre GitHub:</strong> Si GitHub elimina, suspende o tumba tu sitio web, no me hago responsable de ello. Si deseas que intente restaurarlo, deberás pagar una cuota de <strong>$500 MXN</strong> y proporcionar: <strong>captura de pantalla donde se vea que el sitio no funciona, la URL exacta y todos los datos del proyecto</strong> enviados previamente a mi correo. Una vez recibido y pagado, intentaré restaurarlo sin garantía absoluta.
+      </div>
+    </section>
+
+    <section>
+      <h2>🔐 Generador de Contraseñas Seguras</h2>
+      <div class="password-generator">
+        <input type="text" id="passwordDisplay" class="password-display" readonly placeholder="Haz clic en Generar">
+        <button type="button" class="pwd-btn" onclick="generatePassword()">Generar</button>
+        <button type="button" class="pwd-btn" onclick="copyPassword()">Copiar</button>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="browser-guide-title">🚀 Guía de Acceso en Navegadores</h2>
+      <div class="guide-container">
+        <div class="guide-box">
+          <h3>🌐 Versión Pública (Clientes)</h3>
+          <ol>
+            <li>Abre tu navegador web de preferencia en cualquier dispositivo.</li>
+            <li>Ingresa a la URL del sitio hospedado en tu cuenta (ejemplo: <strong>tuusuario.github.io/nombre-del-sitio</strong>).</li>
+            <li>Los clientes exploran tus servicios y envían solicitudes desde el formulario.</li>
+          </ol>
+        </div>
+        <div class="guide-box">
+          <h3>🔐 Versión Privada / Panel (Administrador)</h3>
+          <ol>
+            <li>Inicia sesión en GitHub con tu cuenta.</li>
+            <li>Entra a la dirección del panel privado (ejemplo: <strong>tuusuario.github.io/nombre-del-sitio/admin</strong>).</li>
+            <li>Edita contenidos, precios e imágenes sin escribir código.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="terms-section">
+      <h2>⚖️ Condiciones del Servicio y Mantenimiento</h2>
+      <div class="service-closure">
+        <strong>🚨 IMPORTANTE:</strong> El incumplimiento en el pago del mantenimiento anual dará lugar a la <span class="highlight">suspensión temporal del sitio web</span>. Se restablecerá al regularizar el pago. Se pueden negociar casos justificados.
+      </div>
+      <ul>
+        <li><strong>💰 Mantenimiento anual:</strong> <span class="highlight">$500 MXN</span> por año (renovable). Incluye hospedaje, seguridad y soporte básico.</li>
+        <li><strong>📅 Ciclo de facturación:</strong> Primer pago al entregar el sitio. Renovación cada 12 meses.</li>
+        <li><strong>🔒 Bloqueo por falta de pago:</strong> Si no se paga a tiempo, el sitio se deshabilita. Se avisará con 15 días de anticipación.</li>
+        <li><strong>🤝 Negociaciones:</strong> Dificultades de pago → avisa antes del vencimiento para acordar plan.</li>
+        <li><strong>📢 Promoción:</strong> La publicidad del sitio es responsabilidad del cliente. Yo entrego las URLs y tú las administras.</li>
+        <li><strong>📤 Entrega final:</strong> Al entregar las URLs (público + panel) el servicio se da por concluido. Tú tomas el control total.</li>
+      </ul>
+      <div class="alert alert-warning">
+        ⚠️ <strong>Nota:</strong> Respalda tu información y mantén tus contraseñas seguras. No me hago responsable por pérdida de datos.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Cambiar tema
+    function changeTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+    }
+
+    // Mostrar/ocultar dirección
+    function toggleAddress(show) {
+      const field = document.getElementById('address-field');
+      const input = document.getElementById('address');
+      field.style.display = show ? 'block' : 'none';
+      input.required = show;
+    }
+
+    // ✅ SELECCIONAR PAQUETE Y MOSTRAR TODO LO QUE INCLUYE
+    function selectPackage(element, title, price, includes) {
+      // Quitar selección de todos
+      document.querySelectorAll('.price-card').forEach(card => card.classList.remove('active'));
+      // Marcar el seleccionado
+      element.classList.add('active');
+      
+      // Mostrar datos completos al cliente
+      document.getElementById('pkgName').textContent = title;
+      document.getElementById('pkgPrice').textContent = price;
+      document.getElementById('pkgIncludes').innerHTML = includes.replace(/✅/g, '<span style="color:#34d399;">✅</span>');
+      
+      // Mostrar el recuadro
+      document.getElementById('selectedPackageDisplay').style.display = 'block';
+      
+      // Guardar para que llegue completo a tu correo
+      document.getElementById('selectedPackageInput').value = `${title} | Precio: ${price} | ${includes}`;
+    }
+
+    // Enviar formulario de solicitud
+    async function sendForm(event) {
+      event.preventDefault();
+      const pkg = document.getElementById('selectedPackageInput').value;
+      if (!pkg) {
+        alert("⚠️ Primero selecciona un paquete dando clic en él.");
+        return;
+      }
+      const btn = document.getElementById('submitBtn');
+      btn.innerText = "Enviando...";
+      btn.disabled = true;
+      const formData = new FormData(event.target);
+      try {
+        const response = await fetch("https://formspree.io/f/xgaendad", {
+          method: "POST",
+          body: formData,
+          headers: { "Accept": "application/json" }
+        });
+        if (response.ok) {
+          alert("✅ ¡Solicitud enviada con éxito!");
+          event.target.reset();
+          toggleAddress(false);
+          document.querySelectorAll('.price-card').forEach(c => c.classList.remove('active'));
+          document.getElementById('selectedPackageDisplay').style.display = 'none';
+          document.getElementById('selectedPackageInput').value = "";
+        } else {
+          alert("❌ Hubo un problema. Revisa tu configuración en Formspree.");
+        }
+      } catch {
+        alert("❌ Error de conexión. Intenta más tarde.");
+      } finally {
+        btn.innerText = "Enviar Solicitud";
+        btn.disabled = false;
+      }
+    }
+
+    // Generar contraseña
+    function generatePassword() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+      let pwd = "";
+      for (let i = 0; i < 15; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
+      document.getElementById('passwordDisplay').value = pwd;
+    }
+    function copyPassword() {
+      const pwd = document.getElementById('passwordDisplay');
+      if (!pwd.value) return;
+      navigator.clipboard.writeText(pwd.value).then(() => alert("✅ Contraseña copiada"));
+    }
+
+    // 💬 SISTEMA DE COMENTARIOS
+    const STORAGE_KEY = 'web_comments';
+    function loadComments() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    }
+    function saveComment(name, text) {
+      const comments = loadComments();
+      comments.unshift({ name, text, date: new Date().toLocaleString('es-MX') });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+      return comments;
+    }
+    function renderComments(comments) {
+      const list = document.getElementById('commentsList');
+      list.innerHTML = comments.map(c => `
+        <div class="comment">
+          <div class="comment-author">${c.name}</div>
+          <div class="comment-date">${c.date}</div>
+          <div class="comment-text">${c.text}</div>
+        </div>
+      `).join('');
+    }
+    function addComment(event) {
+      event.preventDefault();
+      const name = document.getElementById('commenterName').value.trim();
+      const text = document.getElementById('commentText').value.trim();
+      if (!name || !text) return;
+      renderComments(saveComment(name, text));
+      document.getElementById('commentForm').reset();
+    }
+    document.addEventListener('DOMContentLoaded', () => renderComments(loadComments()));
+  </script>
+</body>
+</html>
