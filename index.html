@@ -18,10 +18,69 @@
     body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
     .container { max-width: 1000px; margin: 0 auto; }
     
-    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 15px; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 15px; position: relative; }
     h1 { font-size: 1.8rem; font-weight: 700; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
     .theme-selector { display: flex; align-items: center; gap: 10px; }
     select { padding: 8px 12px; border-radius: 6px; background: var(--card); color: var(--text); border: 1px solid var(--border); cursor: pointer; outline: none; }
+    
+    /* BOTÓN DE ACCESO AL PANEL */
+    .admin-btn {
+      padding: 8px 16px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .admin-btn:hover { opacity: 0.9; }
+
+    /* MODAL DE CONTRASEÑA */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      display: none;
+    }
+    .modal-box {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+    }
+    .modal-box h3 { color: var(--accent); margin-bottom: 15px; text-align: center; }
+    .modal-box input { margin-bottom: 15px; font-size: 1rem; }
+    .modal-buttons { display: flex; gap: 10px; }
+    .modal-buttons button { flex: 1; }
+    .btn-cancel { background: #64748b; color: #fff; }
+
+    /* PANEL DE EDICIÓN */
+    .admin-panel {
+      background: var(--card);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      display: none;
+    }
+    .admin-panel h3 { color: var(--accent); margin-bottom: 15px; }
+    .admin-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; align-items: center; }
+    .admin-row label { min-width: 120px; font-weight: 600; font-size: 0.9rem; }
+    .admin-row input, .admin-row textarea { flex: 1; min-width: 200px; }
+    .admin-save-btn { background: #10b981; color: #fff; margin-top: 10px; }
+    .admin-logout-btn { background: #ef4444; color: #fff; margin-left: 10px; margin-top: 10px; }
+
     section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
     h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 16px; }
     .grid-pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
@@ -89,44 +148,91 @@
 <body>
   <div class="container">
     <header>
-      <h1>Diseño Web Profesional</h1>
-      <div class="theme-selector">
-        <label for="themeSelect">🎨 Tema:</label>
-        <select id="themeSelect" onchange="changeTheme(this.value)">
-          <option value="dark">Dark Mode</option>
-          <option value="light">Light Mode</option>
-          <option value="emerald">Emerald</option>
-          <option value="sunset">Sunset</option>
-          <option value="purple">Purple</option>
-          <option value="amber">Amber</option>
-          <option value="cyber">Cyberpunk</option>
-          <option value="nordic">Nordic</option>
-        </select>
+      <h1 id="siteTitle">Diseño Web Profesional</h1>
+      <div class="header-right">
+        <div class="theme-selector">
+          <label for="themeSelect">🎨 Tema:</label>
+          <select id="themeSelect" onchange="changeTheme(this.value)">
+            <option value="dark">Dark Mode</option>
+            <option value="light">Light Mode</option>
+            <option value="emerald">Emerald</option>
+            <option value="sunset">Sunset</option>
+            <option value="purple">Purple</option>
+            <option value="amber">Amber</option>
+            <option value="cyber">Cyberpunk</option>
+            <option value="nordic">Nordic</option>
+          </select>
+        </div>
+        <!-- 🔐 BOTÓN DE ACCESO AL PANEL -->
+        <button class="admin-btn" onclick="openAdminLogin()">🔐 Panel Admin</button>
       </div>
     </header>
+
+    <!-- 🔐 MODAL DE CONTRASEÑA -->
+    <div class="modal-overlay" id="adminLoginModal">
+      <div class="modal-box">
+        <h3>🔑 Acceso al Panel de Edición</h3>
+        <input type="password" id="adminPasswordInput" placeholder="Escribe tu contraseña...">
+        <div class="modal-buttons">
+          <button onclick="closeAdminLogin()" class="btn-cancel">Cancelar</button>
+          <button onclick="verifyPassword()">Entrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⚙️ PANEL DE EDICIÓN (SOLO VISIBLE SI INGRESA BIEN) -->
+    <div class="admin-panel" id="adminPanel">
+      <h3>⚙️ Panel de Edición — Cambios en vivo</h3>
+      
+      <div class="admin-row">
+        <label>Título del sitio:</label>
+        <input type="text" id="editTitle" oninput="applyChanges()">
+      </div>
+
+      <div class="admin-row">
+        <label>Paquete 1 - Precio:</label>
+        <input type="text" id="editPkg1Price" oninput="applyChanges()">
+      </div>
+      <div class="admin-row">
+        <label>Paquete 2 - Precio:</label>
+        <input type="text" id="editPkg2Price" oninput="applyChanges()">
+      </div>
+      <div class="admin-row">
+        <label>Paquete 3 - Precio:</label>
+        <input type="text" id="editPkg3Price" oninput="applyChanges()">
+      </div>
+
+      <div class="admin-row">
+        <label>Aviso GitHub:</label>
+        <textarea id="editGithubNotice" rows="3" oninput="applyChanges()"></textarea>
+      </div>
+
+      <button class="admin-save-btn" onclick="saveChanges()">💾 Guardar Cambios</button>
+      <button class="admin-logout-btn" onclick="logoutAdmin()">🚪 Cerrar Sesión</button>
+    </div>
 
     <section>
       <h2>💰 Catálogo de Paquetes y Precios</h2>
       <div class="grid-pricing">
 
         <!-- PAQUETE 1 - $800 -->
-        <button type="button" class="price-card" onclick="selectPackage(this, '🟢 Página Básica con Panel', '$800 MXN', '✅ Página de Inicio ✅ Quiénes Somos ✅ Contacto con formulario ✅ Mapa de ubicación ✅ Panel privado de edición')">
+        <button type="button" class="price-card" onclick="selectPackage(this, '🟢 Página Básica con Panel', document.getElementById('pkg1Price').textContent, '✅ Página de Inicio ✅ Quiénes Somos ✅ Contacto con formulario ✅ Mapa de ubicación ✅ Panel privado de edición')">
           <h3>🟢 Página Básica con Panel</h3>
-          <div class="price">$800 MXN</div>
+          <div class="price" id="pkg1Price">$800 MXN</div>
           <p class="includes">Lo esencial para empezar</p>
         </button>
 
         <!-- PAQUETE 2 - $2,000 -->
-        <button type="button" class="price-card" onclick="selectPackage(this, '🟡 Página Avanzada con Panel', '$2,000 MXN', '✅ Todo lo del paquete básico ✅ Galería de imágenes ✅ Sección de Servicios ✅ Horarios de atención ✅ Diseño personalizado a tu gusto ✅ Panel privado completo')">
+        <button type="button" class="price-card" onclick="selectPackage(this, '🟡 Página Avanzada con Panel', document.getElementById('pkg2Price').textContent, '✅ Todo lo del paquete básico ✅ Galería de imágenes ✅ Sección de Servicios ✅ Horarios de atención ✅ Diseño personalizado a tu gusto ✅ Panel privado completo')">
           <h3>🟡 Página Avanzada con Panel</h3>
-          <div class="price">$2,000 MXN</div>
+          <div class="price" id="pkg2Price">$2,000 MXN</div>
           <p class="includes">Completo y personalizado</p>
         </button>
 
         <!-- PAQUETE 3 - $5,500 -->
-        <button type="button" class="price-card" onclick="selectPackage(this, '🔴 Página Premium con Panel', '$5,500 MXN', '✅ Todo lo de los paquetes anteriores ✅ Dominio propio personalizado ✅ Hospedaje incluido ✅ Mantenimiento por 1 año ✅ Soporte prioritario ✅ Panel de edición completo')">
+        <button type="button" class="price-card" onclick="selectPackage(this, '🔴 Página Premium con Panel', document.getElementById('pkg3Price').textContent, '✅ Todo lo de los paquetes anteriores ✅ Dominio propio personalizado ✅ Hospedaje incluido ✅ Mantenimiento por 1 año ✅ Soporte prioritario ✅ Panel de edición completo')">
           <h3>🔴 Página Premium con Panel</h3>
-          <div class="price">$5,500 MXN</div>
+          <div class="price" id="pkg3Price">$5,500 MXN</div>
           <p class="includes">Todo incluido + 1 año de servicio</p>
         </button>
 
@@ -215,7 +321,7 @@
       <div class="alert">
         ⚠️ <strong>Aviso Final:</strong> Una vez entregados los dos sitios web, no me hago responsable de ningún cambio, problema o uso que se le dé. El servicio concluye al momento de la entrega.
       </div>
-      <div class="alert">
+      <div class="alert" id="githubNoticeBox">
         ⚠️ <strong>Aviso sobre GitHub:</strong> Si GitHub elimina, suspende o tumba tu sitio web, no me hago responsable de ello. Si deseas que intente restaurarlo, deberás pagar una cuota de <strong>$500 MXN</strong> y proporcionar: <strong>captura de pantalla donde se vea que el sitio no funciona, la URL exacta y todos los datos del proyecto</strong> enviados previamente a mi correo. Una vez recibido y pagado, intentaré restaurarlo sin garantía absoluta.
       </div>
     </section>
@@ -271,6 +377,9 @@
   </div>
 
   <script>
+    // 🔐 CONTRASEÑA DEL PANEL
+    const ADMIN_PASSWORD = "@2lrQhNZn6@21Fs";
+
     // Cambiar tema
     function changeTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
@@ -284,26 +393,107 @@
       input.required = show;
     }
 
-    // ✅ SELECCIONAR PAQUETE Y MOSTRAR TODO LO QUE INCLUYE
+    // ✅ SELECCIONAR PAQUETE
     function selectPackage(element, title, price, includes) {
-      // Quitar selección de todos
       document.querySelectorAll('.price-card').forEach(card => card.classList.remove('active'));
-      // Marcar el seleccionado
       element.classList.add('active');
-      
-      // Mostrar datos completos al cliente
       document.getElementById('pkgName').textContent = title;
       document.getElementById('pkgPrice').textContent = price;
       document.getElementById('pkgIncludes').innerHTML = includes.replace(/✅/g, '<span style="color:#34d399;">✅</span>');
-      
-      // Mostrar el recuadro
       document.getElementById('selectedPackageDisplay').style.display = 'block';
-      
-      // Guardar para que llegue completo a tu correo
       document.getElementById('selectedPackageInput').value = `${title} | Precio: ${price} | ${includes}`;
     }
 
-    // Enviar formulario de solicitud
+    // 🚪 ABRIR / CERRAR LOGIN
+    function openAdminLogin() {
+      document.getElementById('adminLoginModal').style.display = 'flex';
+      document.getElementById('adminPasswordInput').value = '';
+      document.getElementById('adminPasswordInput').focus();
+    }
+    function closeAdminLogin() {
+      document.getElementById('adminLoginModal').style.display = 'none';
+      document.getElementById('adminPasswordInput').value = '';
+    }
+
+    // 🔑 VERIFICAR CONTRASEÑA
+    function verifyPassword() {
+      const input = document.getElementById('adminPasswordInput').value;
+      if (input === ADMIN_PASSWORD) {
+        closeAdminLogin();
+        document.getElementById('adminPanel').style.display = 'block';
+        loadCurrentValues();
+        alert("✅ ¡Acceso concedido! Ahora puedes editar el sitio.");
+      } else {
+        alert("❌ Contraseña incorrecta. No puedes entrar.");
+        document.getElementById('adminPasswordInput').value = '';
+      }
+    }
+
+    // 📋 CARGAR VALORES ACTUALES EN EL PANEL
+    function loadCurrentValues() {
+      document.getElementById('editTitle').value = document.getElementById('siteTitle').textContent;
+      document.getElementById('editPkg1Price').value = document.getElementById('pkg1Price').textContent;
+      document.getElementById('editPkg2Price').value = document.getElementById('pkg2Price').textContent;
+      document.getElementById('editPkg3Price').value = document.getElementById('pkg3Price').textContent;
+      document.getElementById('editGithubNotice').value = document.getElementById('githubNoticeBox').innerHTML.replace(/<[^>]*>/g, '');
+    }
+
+    // ⚡ APLICAR CAMBIOS EN VIVO AL INSTANTE
+    function applyChanges() {
+      // Cambiar título
+      if (document.getElementById('editTitle').value) {
+        document.getElementById('siteTitle').textContent = document.getElementById('editTitle').value;
+      }
+      // Cambiar precios
+      if (document.getElementById('editPkg1Price').value) {
+        document.getElementById('pkg1Price').textContent = document.getElementById('editPkg1Price').value;
+      }
+      if (document.getElementById('editPkg2Price').value) {
+        document.getElementById('pkg2Price').textContent = document.getElementById('editPkg2Price').value;
+      }
+      if (document.getElementById('editPkg3Price').value) {
+        document.getElementById('pkg3Price').textContent = document.getElementById('editPkg3Price').value;
+      }
+      // Cambiar aviso de GitHub
+      if (document.getElementById('editGithubNotice').value) {
+        document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + document.getElementById('editGithubNotice').value;
+      }
+    }
+
+    // 💾 GUARDAR EN ALMACENAMIENTO PERMANENTE
+    function saveChanges() {
+      const cambios = {
+        titulo: document.getElementById('editTitle').textContent,
+        pkg1: document.getElementById('pkg1Price').textContent,
+        pkg2: document.getElementById('pkg2Price').textContent,
+        pkg3: document.getElementById('pkg3Price').textContent,
+        aviso: document.getElementById('editGithubNotice').value,
+        fecha: new Date().toLocaleString('es-MX')
+      };
+      localStorage.setItem('cambiosSitio', JSON.stringify(cambios));
+      alert("✅ ¡Cambios guardados y aplicados al instante!");
+    }
+
+    // 🚪 CERRAR SESIÓN
+    function logoutAdmin() {
+      document.getElementById('adminPanel').style.display = 'none';
+      alert("🔑 Sesión cerrada.");
+    }
+
+    // 🔄 CARGAR CAMBIOS GUARDADOS AL ABRIR LA PÁGINA
+    function cargarCambiosGuardados() {
+      const guardado = localStorage.getItem('cambiosSitio');
+      if (guardado) {
+        const datos = JSON.parse(guardado);
+        if (datos.titulo) document.getElementById('siteTitle').textContent = datos.titulo;
+        if (datos.pkg1) document.getElementById('pkg1Price').textContent = datos.pkg1;
+        if (datos.pkg2) document.getElementById('pkg2Price').textContent = datos.pkg2;
+        if (datos.pkg3) document.getElementById('pkg3Price').textContent = datos.pkg3;
+        if (datos.aviso) document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + datos.aviso;
+      }
+    }
+
+    // Enviar formulario
     async function sendForm(event) {
       event.preventDefault();
       const pkg = document.getElementById('selectedPackageInput').value;
@@ -352,7 +542,7 @@
       navigator.clipboard.writeText(pwd.value).then(() => alert("✅ Contraseña copiada"));
     }
 
-    // 💬 SISTEMA DE COMENTARIOS
+    // Comentarios
     const STORAGE_KEY = 'web_comments';
     function loadComments() {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -382,7 +572,19 @@
       renderComments(saveComment(name, text));
       document.getElementById('commentForm').reset();
     }
-    document.addEventListener('DOMContentLoaded', () => renderComments(loadComments()));
+
+    // INICIO — Cargar todo al abrir la página
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarCambiosGuardados();
+      renderComments(loadComments());
+    });
+
+    // Permitir entrar presionando Enter en la contraseña
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && document.getElementById('adminLoginModal').style.display === 'flex') {
+        verifyPassword();
+      }
+    });
   </script>
 </body>
 </html>
