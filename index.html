@@ -42,16 +42,6 @@
     .admin-row input, .admin-row textarea { flex: 1; min-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
     .admin-save-btn { background: #10b981; color: #fff; margin-top: 10px; }
     .admin-logout-btn { background: #ef4444; color: #fff; margin-left: 10px; margin-top: 10px; }
-    .admin-upload { border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; cursor: pointer; margin: 10px 0; }
-    .admin-upload:hover { background: rgba(56,189,248,0.1); }
-
-    .gallery-section { display: none; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-top: 16px; }
-    .gallery-img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); }
-    .gallery-img:hover { border-color: var(--accent); }
-    .admin-img-item { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 8px; background: var(--bg); border-radius: 6px; }
-    .admin-img-preview { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
-    .admin-img-delete { background: #ef4444; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
 
     section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
     h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 16px; }
@@ -93,11 +83,25 @@
     .terms-section li { margin-bottom: 10px; line-height: 1.7; }
     .highlight { color: var(--accent); font-weight: 600; }
     .service-closure { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 15px; border-radius: 0 6px 6px 0; margin: 15px 0; }
-    .comment { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 12px; background: var(--bg); }
-    .comment-author { font-weight: 600; color: var(--accent); margin-bottom: 4px; }
-    .comment-date { font-size: 0.8rem; opacity: 0.7; margin-bottom: 8px; }
-    .comment-text { line-height: 1.5; }
-    .comments-list { margin-top: 16px; }
+
+    /* ⭐ SISTEMA DE ESTRELLAS */
+    .stars { display: flex; gap: 4px; margin: 8px 0; }
+    .star { font-size: 28px; cursor: pointer; color: #475569; transition: color 0.2s; user-select: none; }
+    .star.activa { color: #fbbf24; }
+    .star:hover { color: #fbbf24; }
+    .stars-lectura { cursor: default; }
+    .stars-lectura .star:hover { color: inherit; }
+
+    /* 💬 COMENTARIOS */
+    .comment { border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 14px; background: var(--bg); }
+    .comment-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .comment-author { font-weight: 600; color: var(--accent); font-size: 1.05rem; }
+    .comment-date { font-size: 0.8rem; opacity: 0.6; margin-bottom: 6px; }
+    .comment-text { line-height: 1.5; margin-bottom: 8px; }
+    .delete-btn { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+    .delete-btn:hover { background: #dc2626; }
+    .comments-list { margin-top: 20px; }
+    .comment-form-box { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
   </style>
 </head>
 <body>
@@ -118,7 +122,7 @@
             <option value="nordic">Nordic</option>
           </select>
         </div>
-        <button class="admin-btn" onclick="openAdminLogin()">🔐 Panel Admin</button>
+        <button class="admin-btn" onclick="abrirLogin()">🔐 Panel Admin</button>
       </div>
     </header>
 
@@ -127,8 +131,8 @@
         <h3>🔑 Acceso al Panel</h3>
         <input type="password" id="adminPasswordInput" placeholder="Contraseña...">
         <div class="modal-buttons">
-          <button onclick="closeAdminLogin()" class="btn-cancel">Cancelar</button>
-          <button onclick="verifyPassword()">Entrar</button>
+          <button onclick="cerrarLogin()" class="btn-cancel">Cancelar</button>
+          <button onclick="verificarContrasena()">Entrar</button>
         </div>
       </div>
     </div>
@@ -157,13 +161,6 @@
         <textarea id="editGithubNotice" rows="3"></textarea>
       </div>
 
-      <h3 style="margin-top:20px; border-top: 1px solid var(--border); padding-top:15px;">📸 Imágenes</h3>
-      <div class="admin-upload" onclick="document.getElementById('imageUpload').click()">
-        ⬆️ Subir imagen
-      </div>
-      <input type="file" id="imageUpload" accept="image/*" style="display:none;">
-      <div id="adminImageList" style="margin-top:10px;"></div>
-
       <button class="admin-save-btn" onclick="guardarTodo()">💾 GUARDAR</button>
       <button class="admin-logout-btn" onclick="cerrarSesion()">🚪 Salir</button>
     </div>
@@ -176,7 +173,7 @@
           <div class="price" id="pkg1Price">$800 MXN</div>
           <p class="includes">Lo esencial</p>
         </button>
-        <button type="button" class="price-card" onclick="seleccionarPaquete(this, '🟡 Página Avanzada con Panel', document.getElementById('pkg2Price').textContent, '✅ Todo lo básico ✅ Galería ✅ Servicios ✅ Horarios ✅ Diseño personalizado ✅ Panel completo')">
+        <button type="button" class="price-card" onclick="seleccionarPaquete(this, '🟡 Página Avanzada con Panel', document.getElementById('pkg2Price').textContent, '✅ Todo lo básico ✅ Servicios ✅ Horarios ✅ Diseño personalizado ✅ Panel completo')">
           <h3>🟡 Página Avanzada</h3>
           <div class="price" id="pkg2Price">$2,000 MXN</div>
           <p class="includes">Completo</p>
@@ -193,11 +190,6 @@
         <span style="font-size:1.2rem; font-weight:bold; color:var(--accent);" id="pkgPrice"></span>
         <div style="margin-top:10px;" id="pkgIncludes"></div>
       </div>
-    </section>
-
-    <section class="gallery-section" id="gallerySection">
-      <h2>📸 Galería</h2>
-      <div class="gallery-grid" id="galleryGrid"></div>
     </section>
 
     <section>
@@ -220,13 +212,27 @@
       </form>
     </section>
 
+    <!-- 💬 COMENTARIOS PÚBLICOS CON ESTRELLAS -->
     <section>
-      <h2>💬 Comentarios</h2>
-      <form id="commentForm">
-        <div><label>Tu nombre:</label><input type="text" id="commenterName" required></div>
-        <div><label>Comentario:</label><textarea id="commentText" rows="3" required></textarea></div>
-        <button type="submit">Publicar</button>
-      </form>
+      <h2>💬 Comentarios y Calificación</h2>
+      <div class="comment-form-box">
+        <form id="commentForm">
+          <div><label>Tu nombre:</label><input type="text" id="commenterName" required></div>
+          <div>
+            <label>Tu calificación:</label>
+            <div class="stars" id="ratingStars">
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+            <input type="hidden" id="ratingValue" value="0">
+          </div>
+          <div><label>Tu comentario:</label><textarea id="commentText" rows="3" required></textarea></div>
+          <button type="submit">Publicar Comentario</button>
+        </form>
+      </div>
       <div class="comments-list" id="commentsList"></div>
     </section>
 
@@ -266,14 +272,18 @@
 
   <script>
     const CONTRASENA_ADMIN = "@2lrQhNZn6@21Fs";
-    const CLAVE_ALMACEN = "configSitioWeb_v2";
-    let imagenes = [];
+    const CLAVE_ALMACEN = "configSitioWeb_v3";
+    const URL_SERVIDOR = "https://api.jsonbin.io/v3/b/68b72811e41b4d3420602808";
+    const CLAVE_API = "$2a$10$K9gxDW8rbKMGqRvM7z9WKeu7zH0uQaO9qGQs4Z.7YrnE2QqXoH2Nm";
 
     // Cambiar tema
     function cambiarTema(nombre) {
       document.documentElement.setAttribute('data-theme', nombre);
     }
-    document.getElementById('themeSelect').addEventListener('change', e => cambiarTema(e.target.value));
+    document.getElementById('themeSelect').addEventListener('change', e => {
+      cambiarTema(e.target.value);
+      guardarTodo();
+    });
 
     // Dirección
     function mostrarDireccion(mostrar) {
@@ -308,7 +318,6 @@
         cerrarLogin();
         document.getElementById('adminPanel').style.display = 'block';
         cargarValoresEnPanel();
-        renderizarListaImagenesAdmin();
         alert("✅ ¡Adentro! Edita y pulsa GUARDAR.");
       } else {
         alert("❌ Contraseña incorrecta.");
@@ -319,59 +328,7 @@
       alert("🔑 Sesión cerrada.");
     }
 
-    // Subir imagen
-    document.getElementById('imageUpload').addEventListener('change', e => {
-      const archivo = e.target.files[0];
-      if (!archivo) return;
-      const lector = new FileReader();
-      lector.onload = evento => {
-        imagenes.push(evento.target.result);
-        renderizarGaleria();
-        renderizarListaImagenesAdmin();
-      };
-      lector.readAsDataURL(archivo);
-      e.target.value = '';
-    });
-
-    // Galería
-    function renderizarGaleria() {
-      const seccion = document.getElementById('gallerySection');
-      const cuadricula = document.getElementById('galleryGrid');
-      if (imagenes.length === 0) {
-        seccion.style.display = 'none';
-        cuadricula.innerHTML = '';
-        return;
-      }
-      seccion.style.display = 'block';
-      cuadricula.innerHTML = imagenes.map(img => `<img loading="lazy" src="${img}" class="gallery-img" alt="">`).join('');
-    }
-
-    // Lista admin
-    function renderizarListaImagenesAdmin() {
-      const lista = document.getElementById('adminImageList');
-      if (imagenes.length === 0) {
-        lista.innerHTML = '<p style="opacity:0.7; font-size:0.9rem;">Sin imágenes todavía.</p>';
-        return;
-      }
-      lista.innerHTML = imagenes.map((img, i) => `
-        <div class="admin-img-item">
-          <img src="${img}" class="admin-img-preview" alt="">
-          <span>Imagen ${i+1}</span>
-          <button class="admin-img-delete" onclick="borrarImagen(${i})">🗑️</button>
-        </div>
-      `).join('');
-    }
-
-    // Borrar imagen
-    window.borrarImagen = function(indice) {
-      if (confirm("¿Borrar esta imagen?")) {
-        imagenes.splice(indice, 1);
-        renderizarGaleria();
-        renderizarListaImagenesAdmin();
-      }
-    };
-
-    // 💾 GUARDAR TODO
+    // 💾 GUARDAR CONFIGURACIÓN
     function guardarTodo() {
       const datos = {
         titulo: document.getElementById('editTitle').value || document.getElementById('siteTitle').textContent,
@@ -379,18 +336,11 @@
         pkg2: document.getElementById('editPkg2Price').value || document.getElementById('pkg2Price').textContent,
         pkg3: document.getElementById('editPkg3Price').value || document.getElementById('pkg3Price').textContent,
         aviso: document.getElementById('editGithubNotice').value || document.getElementById('githubNoticeBox').textContent.replace(/⚠️.*?:\s*/, ''),
-        tema: document.getElementById('themeSelect').value,
-        imagenes: imagenes.length > 0 ? imagenes : []
+        tema: document.getElementById('themeSelect').value
       };
       
-      try {
-        localStorage.setItem(CLAVE_ALMACEN, JSON.stringify(datos));
-      } catch (e) {
-        alert("⚠️ Almacenamiento lleno. Borra algunas imágenes pesadas.");
-        return;
-      }
+      localStorage.setItem(CLAVE_ALMACEN, JSON.stringify(datos));
       
-      // Aplicar cambios
       document.getElementById('siteTitle').textContent = datos.titulo;
       document.getElementById('pkg1Price').textContent = datos.pkg1;
       document.getElementById('pkg2Price').textContent = datos.pkg2;
@@ -411,7 +361,7 @@
       document.getElementById('editGithubNotice').value = document.getElementById('githubNoticeBox').textContent.replace(/⚠️.*?:\s*/, '');
     }
 
-    // 🔄 CARGAR AL INICIAR
+    // 🔄 Cargar configuración al iniciar
     function cargarAlIniciar() {
       const guardado = localStorage.getItem(CLAVE_ALMACEN);
       if (!guardado) return;
@@ -427,14 +377,152 @@
           document.getElementById('themeSelect').value = datos.tema;
           cambiarTema(datos.tema);
         }
-        if (datos.imagenes && Array.isArray(datos.imagenes)) {
-          imagenes = datos.imagenes;
-          renderizarGaleria();
-        }
       } catch (e) {
         console.log("Error al cargar:", e);
       }
     }
+
+    // ⭐ SISTEMA DE ESTRELLAS
+    let calificacion = 0;
+    const contenedorEstrellas = document.getElementById('ratingStars');
+    const estrellas = contenedorEstrellas.querySelectorAll('.star');
+
+    estrellas.forEach(estrella => {
+      estrella.addEventListener('click', () => {
+        calificacion = parseInt(estrella.dataset.value);
+        document.getElementById('ratingValue').value = calificacion;
+        actualizarEstrellas(calificacion);
+      });
+      estrella.addEventListener('mouseover', () => {
+        actualizarEstrellas(parseInt(estrella.dataset.value));
+      });
+    });
+
+    contenedorEstrellas.addEventListener('mouseleave', () => {
+      actualizarEstrellas(calificacion);
+    });
+
+    function actualizarEstrellas(valor) {
+      estrellas.forEach((estrella, i) => {
+        estrella.classList.toggle('activa', i < valor);
+      });
+    }
+
+    // 💬 COMENTARIOS PÚBLICOS
+    let comentarios = [];
+    let miIdComentario = null;
+
+    async function cargarComentarios() {
+      try {
+        const respuesta = await fetch(URL_SERVIDOR + "?meta=false", {
+          headers: { "X-Master-Key": CLAVE_API }
+        });
+        const datos = await respuesta.json();
+        comentarios = datos.record || [];
+        renderizarComentarios();
+      } catch {
+        comentarios = [];
+        renderizarComentarios();
+      }
+    }
+
+    async function guardarComentario(nombre, estrellas, texto) {
+      const idUnico = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      const nuevo = {
+        id: idUnico,
+        nombre,
+        estrellas,
+        texto,
+        fecha: new Date().toLocaleString('es-MX'),
+        huella: idUnico
+      };
+      
+      comentarios.unshift(nuevo);
+      miIdComentario = idUnico;
+      localStorage.setItem('miComentarioId', idUnico);
+      
+      await fetch(URL_SERVIDOR, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": CLAVE_API
+        },
+        body: JSON.stringify(comentarios)
+      });
+      
+      renderizarComentarios();
+    }
+
+    async function borrarComentario(id) {
+      if (!confirm("¿Eliminar tu comentario?")) return;
+      comentarios = comentarios.filter(c => c.id !== id);
+      
+      await fetch(URL_SERVIDOR, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": CLAVE_API
+        },
+        body: JSON.stringify(comentarios)
+      });
+      
+      localStorage.removeItem('miComentarioId');
+      miIdComentario = null;
+      renderizarComentarios();
+    }
+
+    function estrellasHTML(cantidad) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        html += `<span class="star ${i <= cantidad ? 'activa' : ''}">★</span>`;
+      }
+      return `<div class="stars stars-lectura">${html}</div>`;
+    }
+
+    function renderizarComentarios() {
+      const lista = document.getElementById('commentsList');
+      miIdComentario = localStorage.getItem('miComentarioId');
+      
+      if (comentarios.length === 0) {
+        lista.innerHTML = '<p style="opacity:0.7; text-align:center;">Sé el primero en comentar 😊</p>';
+        return;
+      }
+      
+      lista.innerHTML = comentarios.map(c => {
+        const esMio = c.huella === miIdComentario;
+        return `
+          <div class="comment">
+            <div class="comment-header">
+              <span class="comment-author">${c.nombre}</span>
+              ${esMio ? `<button class="delete-btn" onclick="borrarComentario('${c.id}')">🗑️ Borrar</button>` : ''}
+            </div>
+            ${estrellasHTML(c.estrellas)}
+            <div class="comment-date">${c.fecha}</div>
+            <div class="comment-text">${c.texto}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Enviar comentario
+    document.getElementById('commentForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const nombre = document.getElementById('commenterName').value.trim();
+      const estrellas = calificacion;
+      const texto = document.getElementById('commentText').value.trim();
+      
+      if (!nombre || !texto) { alert("⚠️ Escribe tu nombre y comentario."); return; }
+      if (estrellas === 0) { alert("⚠️ Ponle calificación de estrellas."); return; }
+      
+      await guardarComentario(nombre, estrellas, texto);
+      
+      document.getElementById('commenterName').value = '';
+      document.getElementById('commentText').value = '';
+      calificacion = 0;
+      actualizarEstrellas(0);
+      
+      alert("✅ ¡Comentario publicado! Lo ven todos.");
+    });
 
     // Formulario de contacto
     document.getElementById('contactForm').addEventListener('submit', async e => {
@@ -478,38 +566,7 @@
       navigator.clipboard.writeText(pwd).then(() => alert("✅ Copiada"));
     };
 
-    // Comentarios
-    const CLAVE_COMENTARIOS = "web_comments";
-    function cargarComentarios() {
-      const guardado = localStorage.getItem(CLAVE_COMENTARIOS);
-      return guardado ? JSON.parse(guardado) : [];
-    }
-    function guardarComentario(nombre, texto) {
-      const lista = cargarComentarios();
-      lista.unshift({ nombre, texto, fecha: new Date().toLocaleString('es-MX') });
-      localStorage.setItem(CLAVE_COMENTARIOS, JSON.stringify(lista));
-      return lista;
-    }
-    function renderizarComentarios(lista) {
-      const contenedor = document.getElementById('commentsList');
-      contenedor.innerHTML = lista.map(c => `
-        <div class="comment">
-          <div class="comment-author">${c.nombre}</div>
-          <div class="comment-date">${c.fecha}</div>
-          <div class="comment-text">${c.texto}</div>
-        </div>
-      `).join('');
-    }
-    document.getElementById('commentForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const nombre = document.getElementById('commenterName').value.trim();
-      const texto = document.getElementById('commentText').value.trim();
-      if (!nombre || !texto) return;
-      renderizarComentarios(guardarComentario(nombre, texto));
-      e.target.reset();
-    });
-
-    // Enter para entrar
+    // Enter para entrar al panel
     document.addEventListener('keydown', e => {
       if (e.key === 'Enter' && document.getElementById('adminLoginModal').style.display === 'flex') {
         verificarContrasena();
@@ -518,8 +575,10 @@
 
     // ⚡ INICIO
     document.addEventListener('DOMContentLoaded', () => {
+      localStorage.removeItem('web_comments');
+      localStorage.removeItem('configSitioWeb_v2');
       cargarAlIniciar();
-      renderizarComentarios(cargarComentarios());
+      cargarComentarios();
     });
   </script>
 </body>
