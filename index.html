@@ -18,63 +18,25 @@
     body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
     .container { max-width: 1000px; margin: 0 auto; }
     
-    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 15px; position: relative; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 15px; }
     h1 { font-size: 1.8rem; font-weight: 700; }
     .header-right { display: flex; align-items: center; gap: 12px; }
     .theme-selector { display: flex; align-items: center; gap: 10px; }
     select { padding: 8px 12px; border-radius: 6px; background: var(--card); color: var(--text); border: 1px solid var(--border); cursor: pointer; outline: none; }
     
-    /* BOTÓN DE ACCESO AL PANEL */
-    .admin-btn {
-      padding: 8px 16px;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
+    .admin-btn { padding: 8px 16px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
     .admin-btn:hover { opacity: 0.9; }
 
-    /* MODAL DE CONTRASEÑA */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      display: none;
-    }
-    .modal-box {
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      padding: 30px;
-      width: 90%;
-      max-width: 420px;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 9999; display: none; }
+    .modal-box { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 30px; width: 90%; max-width: 420px; }
     .modal-box h3 { color: var(--accent); margin-bottom: 15px; text-align: center; }
     .modal-box input { margin-bottom: 15px; font-size: 1rem; }
     .modal-buttons { display: flex; gap: 10px; }
     .modal-buttons button { flex: 1; }
     .btn-cancel { background: #64748b; color: #fff; }
 
-    /* PANEL DE EDICIÓN */
-    .admin-panel {
-      background: var(--card);
-      border: 2px solid var(--accent);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 24px;
-      display: none;
-    }
-    .admin-panel h3 { color: var(--accent); margin-bottom: 18px; font-size: 1.2rem; }
+    .admin-panel { background: var(--card); border: 2px solid var(--accent); border-radius: 12px; padding: 24px; margin-bottom: 24px; display: none; }
+    .admin-panel h3 { color: var(--accent); margin-bottom: 18px; font-size: 1.1rem; }
     .admin-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; align-items: center; }
     .admin-row label { min-width: 130px; font-weight: 600; font-size: 0.9rem; }
     .admin-row input, .admin-row textarea { flex: 1; min-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
@@ -83,7 +45,6 @@
     .admin-upload { border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; cursor: pointer; margin: 10px 0; }
     .admin-upload:hover { background: rgba(56,189,248,0.1); }
 
-    /* GALERÍA DE IMÁGENES — SOLO SE MUESTRA SI HAY FOTOS */
     .gallery-section { display: none; }
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-top: 16px; }
     .gallery-img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); }
@@ -96,26 +57,9 @@
     h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 16px; }
     .grid-pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
     
-    .price-card { 
-      background: var(--card); 
-      border: 2px solid var(--border); 
-      border-radius: 8px; 
-      padding: 20px; 
-      text-align: center; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: space-between; 
-      cursor: pointer;
-      color: var(--text);
-      width: 100%;
-      transition: all 0.3s ease;
-    }
+    .price-card { background: var(--card); border: 2px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; color: var(--text); width: 100%; transition: all 0.3s ease; }
     .price-card:hover { border-color: var(--accent); }
-    .price-card.active { 
-      border-color: var(--accent); 
-      box-shadow: 0 0 12px var(--accent);
-      background-color: var(--bg);
-    }
+    .price-card.active { border-color: var(--accent); box-shadow: 0 0 12px var(--accent); background-color: var(--bg); }
     .price-card h3 { font-size: 1.1rem; }
     .price { font-size: 1.6rem; font-weight: 700; color: var(--accent); margin: 10px 0; }
     .includes { font-size: 0.9rem; opacity: 0.9; }
@@ -163,7 +107,7 @@
       <div class="header-right">
         <div class="theme-selector">
           <label for="themeSelect">🎨 Tema:</label>
-          <select id="themeSelect" onchange="changeTheme(this.value)">
+          <select id="themeSelect">
             <option value="dark">Dark Mode</option>
             <option value="light">Light Mode</option>
             <option value="emerald">Emerald</option>
@@ -174,16 +118,14 @@
             <option value="nordic">Nordic</option>
           </select>
         </div>
-        <!-- 🔐 BOTÓN DE ACCESO AL PANEL -->
         <button class="admin-btn" onclick="openAdminLogin()">🔐 Panel Admin</button>
       </div>
     </header>
 
-    <!-- 🔐 MODAL DE CONTRASEÑA -->
     <div class="modal-overlay" id="adminLoginModal">
       <div class="modal-box">
-        <h3>🔑 Acceso al Panel de Edición</h3>
-        <input type="password" id="adminPasswordInput" placeholder="Escribe tu contraseña...">
+        <h3>🔑 Acceso al Panel</h3>
+        <input type="password" id="adminPasswordInput" placeholder="Contraseña...">
         <div class="modal-buttons">
           <button onclick="closeAdminLogin()" class="btn-cancel">Cancelar</button>
           <button onclick="verifyPassword()">Entrar</button>
@@ -191,15 +133,13 @@
       </div>
     </div>
 
-    <!-- ⚙️ PANEL DE EDICIÓN (SOLO VISIBLE SI INGRESA BIEN) -->
     <div class="admin-panel" id="adminPanel">
-      <h3>⚙️ Panel de Edición — Cambios en vivo y permanentes</h3>
+      <h3>⚙️ Panel de Edición</h3>
       
       <div class="admin-row">
         <label>Título del sitio:</label>
         <input type="text" id="editTitle">
       </div>
-
       <div class="admin-row">
         <label>Paquete 1 - Precio:</label>
         <input type="text" id="editPkg1Price">
@@ -212,357 +152,272 @@
         <label>Paquete 3 - Precio:</label>
         <input type="text" id="editPkg3Price">
       </div>
-
       <div class="admin-row">
         <label>Aviso GitHub:</label>
         <textarea id="editGithubNotice" rows="3"></textarea>
       </div>
 
-      <!-- 📸 SECCIÓN DE IMÁGENES EN EL PANEL -->
-      <h3 style="margin-top:20px; border-top: 1px solid var(--border); padding-top:15px;">📸 Gestión de Imágenes</h3>
+      <h3 style="margin-top:20px; border-top: 1px solid var(--border); padding-top:15px;">📸 Imágenes</h3>
       <div class="admin-upload" onclick="document.getElementById('imageUpload').click()">
-        ⬆️ Haz clic para subir una imagen desde tu equipo
+        ⬆️ Subir imagen
       </div>
-      <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="uploadImage(event)">
+      <input type="file" id="imageUpload" accept="image/*" style="display:none;">
       <div id="adminImageList" style="margin-top:10px;"></div>
 
-      <button class="admin-save-btn" onclick="guardarTodo()">💾 GUARDAR TODO</button>
-      <button class="admin-logout-btn" onclick="logoutAdmin()">🚪 Cerrar Sesión</button>
+      <button class="admin-save-btn" onclick="guardarTodo()">💾 GUARDAR</button>
+      <button class="admin-logout-btn" onclick="cerrarSesion()">🚪 Salir</button>
     </div>
 
     <section>
-      <h2>💰 Catálogo de Paquetes y Precios</h2>
+      <h2>💰 Catálogo de Paquetes</h2>
       <div class="grid-pricing">
-
-        <!-- PAQUETE 1 -->
-        <button type="button" class="price-card" onclick="selectPackage(this, '🟢 Página Básica con Panel', document.getElementById('pkg1Price').textContent, '✅ Página de Inicio ✅ Quiénes Somos ✅ Contacto con formulario ✅ Mapa de ubicación ✅ Panel privado de edición')">
-          <h3>🟢 Página Básica con Panel</h3>
+        <button type="button" class="price-card" onclick="seleccionarPaquete(this, '🟢 Página Básica con Panel', document.getElementById('pkg1Price').textContent, '✅ Inicio ✅ Quiénes Somos ✅ Contacto ✅ Mapa ✅ Panel de edición')">
+          <h3>🟢 Página Básica</h3>
           <div class="price" id="pkg1Price">$800 MXN</div>
-          <p class="includes">Lo esencial para empezar</p>
+          <p class="includes">Lo esencial</p>
         </button>
-
-        <!-- PAQUETE 2 -->
-        <button type="button" class="price-card" onclick="selectPackage(this, '🟡 Página Avanzada con Panel', document.getElementById('pkg2Price').textContent, '✅ Todo lo del paquete básico ✅ Galería de imágenes ✅ Sección de Servicios ✅ Horarios de atención ✅ Diseño personalizado a tu gusto ✅ Panel privado completo')">
-          <h3>🟡 Página Avanzada con Panel</h3>
+        <button type="button" class="price-card" onclick="seleccionarPaquete(this, '🟡 Página Avanzada con Panel', document.getElementById('pkg2Price').textContent, '✅ Todo lo básico ✅ Galería ✅ Servicios ✅ Horarios ✅ Diseño personalizado ✅ Panel completo')">
+          <h3>🟡 Página Avanzada</h3>
           <div class="price" id="pkg2Price">$2,000 MXN</div>
-          <p class="includes">Completo y personalizado</p>
+          <p class="includes">Completo</p>
         </button>
-
-        <!-- PAQUETE 3 -->
-        <button type="button" class="price-card" onclick="selectPackage(this, '🔴 Página Premium con Panel', document.getElementById('pkg3Price').textContent, '✅ Todo lo de los paquetes anteriores ✅ Dominio propio personalizado ✅ Hospedaje incluido ✅ Mantenimiento por 1 año ✅ Soporte prioritario ✅ Panel de edición completo')">
-          <h3>🔴 Página Premium con Panel</h3>
+        <button type="button" class="price-card" onclick="seleccionarPaquete(this, '🔴 Página Premium con Panel', document.getElementById('pkg3Price').textContent, '✅ Todo incluido ✅ Dominio ✅ Hospedaje ✅ Mantenimiento 1 año ✅ Soporte prioritario ✅ Panel completo')">
+          <h3>🔴 Página Premium</h3>
           <div class="price" id="pkg3Price">$5,500 MXN</div>
-          <p class="includes">Todo incluido + 1 año de servicio</p>
+          <p class="includes">Todo incluido</p>
         </button>
-
       </div>
-
       <div class="alert alert-info" id="selectedPackageDisplay" style="display:none; margin-top:20px;">
-        <h4 style="margin-bottom:10px; color:var(--accent);">✅ PAQUETE SELECCIONADO:</h4>
+        <h4 style="margin-bottom:10px; color:var(--accent);">✅ SELECCIONADO:</h4>
         <strong id="pkgName"></strong><br>
         <span style="font-size:1.2rem; font-weight:bold; color:var(--accent);" id="pkgPrice"></span>
-        <div style="margin-top:10px; line-height:1.8;" id="pkgIncludes"></div>
+        <div style="margin-top:10px;" id="pkgIncludes"></div>
       </div>
     </section>
 
-    <!-- 📸 SECCIÓN DE IMÁGENES EN EL SITIO — SOLO APARECE SI HAY FOTOS -->
     <section class="gallery-section" id="gallerySection">
-      <h2>📸 Galería de Imágenes</h2>
+      <h2>📸 Galería</h2>
       <div class="gallery-grid" id="galleryGrid"></div>
     </section>
 
     <section>
-      <h2>📩 Solicitar Sitio Web</h2>
-      <form id="contactForm" onsubmit="sendForm(event)">
+      <h2>📩 Solicitar Sitio</h2>
+      <form id="contactForm">
         <input type="hidden" id="selectedPackageInput" name="paquete_seleccionado" required>
-        <div>
-          <label for="businessName">Nombre del negocio:</label>
-          <input type="text" name="businessName" id="businessName" required>
-        </div>
-        <div>
-          <label for="fullName">Nombre de la persona (Solo dos nombres):</label>
-          <input type="text" name="fullName" id="fullName" placeholder="Ej. Juan Carlos" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)$" title="Ingresa exactamente dos nombres" required>
-        </div>
-        <div>
-          <label for="email">Correo electrónico:</label>
-          <input type="email" name="email" id="email" required>
-        </div>
-        <div>
-          <label for="whatsapp">Número de WhatsApp:</label>
-          <input type="tel" name="whatsapp" id="whatsapp" required>
-        </div>
-        <div>
-          <label>¿Es un negocio físico?</label>
+        <div><label>Nombre del negocio:</label><input type="text" name="businessName" required></div>
+        <div><label>Tu nombre (dos nombres):</label><input type="text" name="fullName" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)$" required></div>
+        <div><label>Correo:</label><input type="email" name="email" required></div>
+        <div><label>WhatsApp:</label><input type="tel" name="whatsapp" required></div>
+        <div><label>¿Negocio físico?</label>
           <div class="radio-group">
-            <label class="radio-option"><input type="radio" name="isPhysical" value="si" onclick="toggleAddress(true)"> Sí</label>
-            <label class="radio-option"><input type="radio" name="isPhysical" value="no" onclick="toggleAddress(false)" checked> No</label>
+            <label class="radio-option"><input type="radio" name="isPhysical" value="si" onclick="mostrarDireccion(true)"> Sí</label>
+            <label class="radio-option"><input type="radio" name="isPhysical" value="no" onclick="mostrarDireccion(false)" checked> No</label>
           </div>
         </div>
-        <div id="address-field">
-          <label for="address">Dirección completa:</label>
-          <input type="text" name="address" id="address">
-        </div>
-        <div>
-          <label for="message">Mensaje o detalles del servicio:</label>
-          <textarea name="message" id="message" rows="4" required></textarea>
-        </div>
+        <div id="address-field"><label>Dirección:</label><input type="text" name="address"></div>
+        <div><label>Mensaje:</label><textarea name="message" rows="4" required></textarea></div>
         <button type="submit" id="submitBtn">Enviar Solicitud</button>
       </form>
     </section>
 
     <section>
-      <h2>💬 Comentarios de Clientes</h2>
-      <form id="commentForm" onsubmit="addComment(event)">
-        <div>
-          <label for="commenterName">Tu Nombre:</label>
-          <input type="text" id="commenterName" required>
-        </div>
-        <div>
-          <label for="commentText">Tu Comentario:</label>
-          <textarea id="commentText" rows="3" required></textarea>
-        </div>
-        <button type="submit">Publicar Comentario</button>
+      <h2>💬 Comentarios</h2>
+      <form id="commentForm">
+        <div><label>Tu nombre:</label><input type="text" id="commenterName" required></div>
+        <div><label>Comentario:</label><textarea id="commentText" rows="3" required></textarea></div>
+        <button type="submit">Publicar</button>
       </form>
       <div class="comments-list" id="commentsList"></div>
     </section>
 
     <section>
-      <h2>📖 Instrucciones de Uso</h2>
+      <h2>📖 Instrucciones y Avisos</h2>
       <div class="instructions">
-        <div class="info-box">
-          <h3>🌐 Página Pública</h3>
-          <p>Es la interfaz visible para todos los clientes en internet. Muestra la información de tu negocio, servicios y formas de contacto.</p>
-        </div>
-        <div class="info-box">
-          <h3>🔐 Panel Privado</h3>
-          <p>Plataforma de administración para modificar textos, imágenes, precios y horarios en tiempo real sin escribir código.</p>
-        </div>
+        <div class="info-box"><h3>🌐 Página Pública</h3><p>Lo que ven tus clientes.</p></div>
+        <div class="info-box"><h3>🔐 Panel Privado</h3><p>Edita todo sin escribir código.</p></div>
       </div>
-      <div class="alert">
-        ⚠️ <strong>Aviso:</strong> No me hago responsable si alguien más ingresa con su usuario y contraseña al panel privado. Es responsabilidad del dueño mantener seguros sus datos de acceso.
-      </div>
-      <div class="alert">
-        ⚠️ <strong>Aviso Final:</strong> Una vez entregados los dos sitios web, no me hago responsable de ningún cambio, problema o uso que se le dé. El servicio concluye al momento de la entrega.
-      </div>
-      <div class="alert" id="githubNoticeBox">
-        ⚠️ <strong>Aviso sobre GitHub:</strong> Si GitHub elimina, suspende o tumba tu sitio web, no me hago responsable de ello. Si deseas que intente restaurarlo, deberás pagar una cuota de <strong>$500 MXN</strong> y proporcionar: <strong>captura de pantalla donde se vea que el sitio no funciona, la URL exacta y todos los datos del proyecto</strong> enviados previamente a mi correo. Una vez recibido y pagado, intentaré restaurarlo sin garantía absoluta.
-      </div>
+      <div class="alert">⚠️ No me hago responsable si compartes tu contraseña del panel.</div>
+      <div class="alert">⚠️ Al entregar el sitio, el servicio concluye. Los cambios son responsabilidad del dueño.</div>
+      <div class="alert" id="githubNoticeBox">⚠️ <strong>Aviso GitHub:</strong> Si GitHub suspende tu sitio, restauración cuota $500 MXN + datos.</div>
     </section>
 
     <section>
-      <h2>🔐 Generador de Contraseñas Seguras</h2>
+      <h2>🔐 Generador de Contraseñas</h2>
       <div class="password-generator">
-        <input type="text" id="passwordDisplay" class="password-display" readonly placeholder="Haz clic en Generar">
-        <button type="button" class="pwd-btn" onclick="generatePassword()">Generar</button>
-        <button type="button" class="pwd-btn" onclick="copyPassword()">Copiar</button>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="browser-guide-title">🚀 Guía de Acceso en Navegadores</h2>
-      <div class="guide-container">
-        <div class="guide-box">
-          <h3>🌐 Versión Pública (Clientes)</h3>
-          <ol>
-            <li>Abre tu navegador web de preferencia en cualquier dispositivo.</li>
-            <li>Ingresa a la URL del sitio hospedado en tu cuenta (ejemplo: <strong>tuusuario.github.io/nombre-del-sitio</strong>).</li>
-            <li>Los clientes exploran tus servicios y envían solicitudes desde el formulario.</li>
-          </ol>
-        </div>
-        <div class="guide-box">
-          <h3>🔐 Versión Privada / Panel (Administrador)</h3>
-          <ol>
-            <li>Inicia sesión en GitHub con tu cuenta.</li>
-            <li>Entra a la dirección del panel privado (ejemplo: <strong>tuusuario.github.io/nombre-del-sitio/admin</strong>).</li>
-            <li>Edita contenidos, precios e imágenes sin escribir código.</li>
-          </ol>
-        </div>
+        <input type="text" id="passwordDisplay" class="password-display" readonly placeholder="Genera una">
+        <button type="button" class="pwd-btn" onclick="generarContrasena()">Generar</button>
+        <button type="button" class="pwd-btn" onclick="copiarContrasena()">Copiar</button>
       </div>
     </section>
 
     <section class="terms-section">
-      <h2>⚖️ Condiciones del Servicio y Mantenimiento</h2>
-      <div class="service-closure">
-        <strong>🚨 IMPORTANTE:</strong> El incumplimiento en el pago del mantenimiento anual dará lugar a la <span class="highlight">suspensión temporal del sitio web</span>. Se restablecerá al regularizar el pago. Se pueden negociar casos justificados.
-      </div>
+      <h2>⚖️ Condiciones y Mantenimiento</h2>
+      <div class="service-closure">🚨 Falta de pago → suspensión del sitio. Regularizar para reactivar.</div>
       <ul>
-        <li><strong>💰 Mantenimiento anual:</strong> <span class="highlight">$500 MXN</span> por año (renovable). Incluye hospedaje, seguridad y soporte básico.</li>
-        <li><strong>📅 Ciclo de facturación:</strong> Primer pago al entregar el sitio. Renovación cada 12 meses.</li>
-        <li><strong>🔒 Bloqueo por falta de pago:</strong> Si no se paga a tiempo, el sitio se deshabilita. Se avisará con 15 días de anticipación.</li>
-        <li><strong>🤝 Negociaciones:</strong> Dificultades de pago → avisa antes del vencimiento para acordar plan.</li>
-        <li><strong>📢 Promoción:</strong> La publicidad del sitio es responsabilidad del cliente. Yo entrego las URLs y tú las administras.</li>
-        <li><strong>📤 Entrega final:</strong> Al entregar las URLs (público + panel) el servicio se da por concluido. Tú tomas el control total.</li>
+        <li><strong>Mantenimiento anual:</strong> $500 MXN</li>
+        <li><strong>Renovación:</strong> Cada 12 meses</li>
+        <li><strong>Aviso de vencimiento:</strong> 15 días antes</li>
+        <li><strong>Dificultades:</strong> Avisa antes para negociar</li>
+        <li><strong>Publicidad:</strong> Responsabilidad del cliente</li>
+        <li><strong>Entrega:</strong> Al entregar URLs → servicio concluido</li>
       </ul>
-      <div class="alert alert-warning">
-        ⚠️ <strong>Nota:</strong> Respalda tu información y mantén tus contraseñas seguras. No me hago responsable por pérdida de datos.
-      </div>
     </section>
   </div>
 
   <script>
-    // 🔐 CONTRASEÑA DEL PANEL
-    const ADMIN_PASSWORD = "@2lrQhNZn6@21Fs";
+    const CONTRASENA_ADMIN = "@2lrQhNZn6@21Fs";
+    const CLAVE_ALMACEN = "configSitioWeb_v2";
+    let imagenes = [];
 
     // Cambiar tema
-    function changeTheme(themeName) {
-      document.documentElement.setAttribute('data-theme', themeName);
-      guardarTodo();
+    function cambiarTema(nombre) {
+      document.documentElement.setAttribute('data-theme', nombre);
+    }
+    document.getElementById('themeSelect').addEventListener('change', e => cambiarTema(e.target.value));
+
+    // Dirección
+    function mostrarDireccion(mostrar) {
+      const campo = document.getElementById('address-field');
+      const input = campo.querySelector('input');
+      campo.style.display = mostrar ? 'block' : 'none';
+      input.required = mostrar;
     }
 
-    // Mostrar/ocultar dirección
-    function toggleAddress(show) {
-      const field = document.getElementById('address-field');
-      const input = document.getElementById('address');
-      field.style.display = show ? 'block' : 'none';
-      input.required = show;
-    }
-
-    // ✅ SELECCIONAR PAQUETE
-    function selectPackage(element, title, price, includes) {
-      document.querySelectorAll('.price-card').forEach(card => card.classList.remove('active'));
-      element.classList.add('active');
-      document.getElementById('pkgName').textContent = title;
-      document.getElementById('pkgPrice').textContent = price;
-      document.getElementById('pkgIncludes').innerHTML = includes.replace(/✅/g, '<span style="color:#34d399;">✅</span>');
+    // Seleccionar paquete
+    function seleccionarPaquete(boton, nombre, precio, incluye) {
+      document.querySelectorAll('.price-card').forEach(c => c.classList.remove('active'));
+      boton.classList.add('active');
+      document.getElementById('pkgName').textContent = nombre;
+      document.getElementById('pkgPrice').textContent = precio;
+      document.getElementById('pkgIncludes').innerHTML = incluye.replace(/✅/g, '<span style="color:#34d399;">✅</span>');
       document.getElementById('selectedPackageDisplay').style.display = 'block';
-      document.getElementById('selectedPackageInput').value = `${title} | Precio: ${price} | ${includes}`;
+      document.getElementById('selectedPackageInput').value = `${nombre} | ${precio} | ${incluye}`;
     }
 
-    // 🚪 ABRIR / CERRAR LOGIN
-    function openAdminLogin() {
+    // Login
+    function abrirLogin() {
       document.getElementById('adminLoginModal').style.display = 'flex';
       document.getElementById('adminPasswordInput').value = '';
-      document.getElementById('adminPasswordInput').focus();
     }
-    function closeAdminLogin() {
+    function cerrarLogin() {
       document.getElementById('adminLoginModal').style.display = 'none';
-      document.getElementById('adminPasswordInput').value = '';
     }
-
-    // 🔑 VERIFICAR CONTRASEÑA
-    function verifyPassword() {
-      const input = document.getElementById('adminPasswordInput').value;
-      if (input === ADMIN_PASSWORD) {
-        closeAdminLogin();
+    function verificarContrasena() {
+      const entrada = document.getElementById('adminPasswordInput').value;
+      if (entrada === CONTRASENA_ADMIN) {
+        cerrarLogin();
         document.getElementById('adminPanel').style.display = 'block';
         cargarValoresEnPanel();
         renderizarListaImagenesAdmin();
-        alert("✅ ¡Acceso concedido! Edita y pulsa GUARDAR.");
+        alert("✅ ¡Adentro! Edita y pulsa GUARDAR.");
       } else {
-        alert("❌ Contraseña incorrecta. No puedes entrar.");
-        document.getElementById('adminPasswordInput').value = '';
+        alert("❌ Contraseña incorrecta.");
       }
     }
+    function cerrarSesion() {
+      document.getElementById('adminPanel').style.display = 'none';
+      alert("🔑 Sesión cerrada.");
+    }
 
-    // 📸 ARREGLO PARA ALMACENAR IMÁGENES
-    let listaImagenes = [];
-
-    // 📸 SUBIR IMAGEN
-    function uploadImage(event) {
-      const archivo = event.target.files[0];
+    // Subir imagen
+    document.getElementById('imageUpload').addEventListener('change', e => {
+      const archivo = e.target.files[0];
       if (!archivo) return;
       const lector = new FileReader();
-      lector.onload = function(e) {
-        const imagenBase64 = e.target.result;
-        listaImagenes.push(imagenBase64);
+      lector.onload = evento => {
+        imagenes.push(evento.target.result);
         renderizarGaleria();
         renderizarListaImagenesAdmin();
       };
       lector.readAsDataURL(archivo);
-      event.target.value = '';
-    }
+      e.target.value = '';
+    });
 
-    // 📸 MOSTRAR GALERÍA EN EL SITIO — SOLO SI HAY IMÁGENES
+    // Galería
     function renderizarGaleria() {
       const seccion = document.getElementById('gallerySection');
       const cuadricula = document.getElementById('galleryGrid');
-      
-      if (listaImagenes.length === 0) {
+      if (imagenes.length === 0) {
         seccion.style.display = 'none';
         cuadricula.innerHTML = '';
         return;
       }
-      
       seccion.style.display = 'block';
-      cuadricula.innerHTML = listaImagenes.map(img => 
-        `<img src="${img}" class="gallery-img" alt="Imagen de la galería">`
-      ).join('');
+      cuadricula.innerHTML = imagenes.map(img => `<img loading="lazy" src="${img}" class="gallery-img" alt="">`).join('');
     }
 
-    // 📸 LISTA DE IMÁGENES EN EL PANEL PARA BORRAR
+    // Lista admin
     function renderizarListaImagenesAdmin() {
       const lista = document.getElementById('adminImageList');
-      if (listaImagenes.length === 0) {
-        lista.innerHTML = '<p style="opacity:0.7; font-size:0.9rem;">No hay imágenes subidas todavía.</p>';
+      if (imagenes.length === 0) {
+        lista.innerHTML = '<p style="opacity:0.7; font-size:0.9rem;">Sin imágenes todavía.</p>';
         return;
       }
-      lista.innerHTML = listaImagenes.map((img, indice) => `
+      lista.innerHTML = imagenes.map((img, i) => `
         <div class="admin-img-item">
-          <img src="${img}" class="admin-img-preview">
-          <span>Imagen ${indice + 1}</span>
-          <button class="admin-img-delete" onclick="borrarImagen(${indice})">🗑️ Borrar</button>
+          <img src="${img}" class="admin-img-preview" alt="">
+          <span>Imagen ${i+1}</span>
+          <button class="admin-img-delete" onclick="borrarImagen(${i})">🗑️</button>
         </div>
       `).join('');
     }
 
-    // 📸 BORRAR IMAGEN
-    function borrarImagen(indice) {
+    // Borrar imagen
+    window.borrarImagen = function(indice) {
       if (confirm("¿Borrar esta imagen?")) {
-        listaImagenes.splice(indice, 1);
+        imagenes.splice(indice, 1);
         renderizarGaleria();
         renderizarListaImagenesAdmin();
       }
-    }
+    };
 
-    // 💾 GUARDAR TODO EN ALMACENAMIENTO PERMANENTE
+    // 💾 GUARDAR TODO
     function guardarTodo() {
       const datos = {
-        titulo: document.getElementById('editTitle').value,
-        pkg1: document.getElementById('editPkg1Price').value,
-        pkg2: document.getElementById('editPkg2Price').value,
-        pkg3: document.getElementById('editPkg3Price').value,
-        aviso: document.getElementById('editGithubNotice').value,
-        imagenes: listaImagenes,
+        titulo: document.getElementById('editTitle').value || document.getElementById('siteTitle').textContent,
+        pkg1: document.getElementById('editPkg1Price').value || document.getElementById('pkg1Price').textContent,
+        pkg2: document.getElementById('editPkg2Price').value || document.getElementById('pkg2Price').textContent,
+        pkg3: document.getElementById('editPkg3Price').value || document.getElementById('pkg3Price').textContent,
+        aviso: document.getElementById('editGithubNotice').value || document.getElementById('githubNoticeBox').textContent.replace(/⚠️.*?:\s*/, ''),
         tema: document.getElementById('themeSelect').value,
-        fecha: new Date().toLocaleString('es-MX')
+        imagenes: imagenes.length > 0 ? imagenes : []
       };
-      localStorage.setItem('configSitioWeb', JSON.stringify(datos));
       
-      // Aplicar cambios al instante
-      if (datos.titulo) document.getElementById('siteTitle').textContent = datos.titulo;
-      if (datos.pkg1) document.getElementById('pkg1Price').textContent = datos.pkg1;
-      if (datos.pkg2) document.getElementById('pkg2Price').textContent = datos.pkg2;
-      if (datos.pkg3) document.getElementById('pkg3Price').textContent = datos.pkg3;
-      if (datos.aviso) document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + datos.aviso;
-      if (datos.tema) changeTheme(datos.tema);
+      try {
+        localStorage.setItem(CLAVE_ALMACEN, JSON.stringify(datos));
+      } catch (e) {
+        alert("⚠️ Almacenamiento lleno. Borra algunas imágenes pesadas.");
+        return;
+      }
       
-      alert("✅ ¡TODO GUARDADO! Los cambios quedan aunque recargues la página.");
+      // Aplicar cambios
+      document.getElementById('siteTitle').textContent = datos.titulo;
+      document.getElementById('pkg1Price').textContent = datos.pkg1;
+      document.getElementById('pkg2Price').textContent = datos.pkg2;
+      document.getElementById('pkg3Price').textContent = datos.pkg3;
+      document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + datos.aviso;
+      cambiarTema(datos.tema);
+      document.getElementById('themeSelect').value = datos.tema;
+      
+      alert("✅ ¡Guardado! Los cambios permanecen al recargar.");
     }
 
-    // 📋 CARGAR VALORES EN EL PANEL
+    // Cargar valores en panel
     function cargarValoresEnPanel() {
       document.getElementById('editTitle').value = document.getElementById('siteTitle').textContent;
       document.getElementById('editPkg1Price').value = document.getElementById('pkg1Price').textContent;
       document.getElementById('editPkg2Price').value = document.getElementById('pkg2Price').textContent;
       document.getElementById('editPkg3Price').value = document.getElementById('pkg3Price').textContent;
-      document.getElementById('editGithubNotice').value = document.getElementById('githubNoticeBox').innerHTML.replace(/<[^>]*>/g, '');
+      document.getElementById('editGithubNotice').value = document.getElementById('githubNoticeBox').textContent.replace(/⚠️.*?:\s*/, '');
     }
 
-    // 🚪 CERRAR SESIÓN
-    function logoutAdmin() {
-      document.getElementById('adminPanel').style.display = 'none';
-      alert("🔑 Sesión cerrada.");
-    }
-
-    // 🔄 CARGAR TODO LO GUARDADO AL ABRIR LA PÁGINA
-    function cargarTodoAlIniciar() {
-      const guardado = localStorage.getItem('configSitioWeb');
+    // 🔄 CARGAR AL INICIAR
+    function cargarAlIniciar() {
+      const guardado = localStorage.getItem(CLAVE_ALMACEN);
       if (!guardado) return;
       
       try {
         const datos = JSON.parse(guardado);
-        
-        // Aplicar textos
         if (datos.titulo) document.getElementById('siteTitle').textContent = datos.titulo;
         if (datos.pkg1) document.getElementById('pkg1Price').textContent = datos.pkg1;
         if (datos.pkg2) document.getElementById('pkg2Price').textContent = datos.pkg2;
@@ -570,12 +425,10 @@
         if (datos.aviso) document.getElementById('githubNoticeBox').innerHTML = '⚠️ <strong>Aviso sobre GitHub:</strong> ' + datos.aviso;
         if (datos.tema) {
           document.getElementById('themeSelect').value = datos.tema;
-          changeTheme(datos.tema);
+          cambiarTema(datos.tema);
         }
-        
-        // Cargar imágenes
         if (datos.imagenes && Array.isArray(datos.imagenes)) {
-          listaImagenes = datos.imagenes;
+          imagenes = datos.imagenes;
           renderizarGaleria();
         }
       } catch (e) {
@@ -583,97 +436,90 @@
       }
     }
 
-    // Enviar formulario
-    async function sendForm(event) {
-      event.preventDefault();
-      const pkg = document.getElementById('selectedPackageInput').value;
-      if (!pkg) {
-        alert("⚠️ Primero selecciona un paquete dando clic en él.");
-        return;
-      }
-      const btn = document.getElementById('submitBtn');
-      btn.innerText = "Enviando...";
-      btn.disabled = true;
-      const formData = new FormData(event.target);
+    // Formulario de contacto
+    document.getElementById('contactForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const paquete = document.getElementById('selectedPackageInput').value;
+      if (!paquete) { alert("⚠️ Selecciona un paquete primero."); return; }
+      const boton = document.getElementById('submitBtn');
+      boton.textContent = "Enviando...";
+      boton.disabled = true;
+      const datos = new FormData(e.target);
       try {
-        const response = await fetch("https://formspree.io/f/xgaendad", {
-          method: "POST",
-          body: formData,
-          headers: { "Accept": "application/json" }
+        const respuesta = await fetch("https://formspree.io/f/xgaendad", {
+          method: "POST", body: datos, headers: { "Accept": "application/json" }
         });
-        if (response.ok) {
-          alert("✅ ¡Solicitud enviada con éxito!");
-          event.target.reset();
-          toggleAddress(false);
+        if (respuesta.ok) {
+          alert("✅ ¡Enviado!");
+          e.target.reset();
+          mostrarDireccion(false);
           document.querySelectorAll('.price-card').forEach(c => c.classList.remove('active'));
           document.getElementById('selectedPackageDisplay').style.display = 'none';
-          document.getElementById('selectedPackageInput').value = "";
         } else {
-          alert("❌ Hubo un problema. Revisa tu configuración en Formspree.");
+          alert("❌ Error al enviar.");
         }
       } catch {
-        alert("❌ Error de conexión. Intenta más tarde.");
-      } finally {
-        btn.innerText = "Enviar Solicitud";
-        btn.disabled = false;
+        alert("❌ Sin conexión.");
       }
-    }
+      boton.textContent = "Enviar Solicitud";
+      boton.disabled = false;
+    });
 
-    // Generar contraseña
-    function generatePassword() {
+    // Generador de contraseñas
+    window.generarContrasena = function() {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
       let pwd = "";
       for (let i = 0; i < 15; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
       document.getElementById('passwordDisplay').value = pwd;
-    }
-    function copyPassword() {
-      const pwd = document.getElementById('passwordDisplay');
-      if (!pwd.value) return;
-      navigator.clipboard.writeText(pwd.value).then(() => alert("✅ Contraseña copiada"));
-    }
+    };
+    window.copiarContrasena = function() {
+      const pwd = document.getElementById('passwordDisplay').value;
+      if (!pwd) return;
+      navigator.clipboard.writeText(pwd).then(() => alert("✅ Copiada"));
+    };
 
     // Comentarios
-    const STORAGE_KEY = 'web_comments';
-    function loadComments() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : [];
+    const CLAVE_COMENTARIOS = "web_comments";
+    function cargarComentarios() {
+      const guardado = localStorage.getItem(CLAVE_COMENTARIOS);
+      return guardado ? JSON.parse(guardado) : [];
     }
-    function saveComment(name, text) {
-      const comments = loadComments();
-      comments.unshift({ name, text, date: new Date().toLocaleString('es-MX') });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-      return comments;
+    function guardarComentario(nombre, texto) {
+      const lista = cargarComentarios();
+      lista.unshift({ nombre, texto, fecha: new Date().toLocaleString('es-MX') });
+      localStorage.setItem(CLAVE_COMENTARIOS, JSON.stringify(lista));
+      return lista;
     }
-    function renderComments(comments) {
-      const list = document.getElementById('commentsList');
-      list.innerHTML = comments.map(c => `
+    function renderizarComentarios(lista) {
+      const contenedor = document.getElementById('commentsList');
+      contenedor.innerHTML = lista.map(c => `
         <div class="comment">
-          <div class="comment-author">${c.name}</div>
-          <div class="comment-date">${c.date}</div>
-          <div class="comment-text">${c.text}</div>
+          <div class="comment-author">${c.nombre}</div>
+          <div class="comment-date">${c.fecha}</div>
+          <div class="comment-text">${c.texto}</div>
         </div>
       `).join('');
     }
-    function addComment(event) {
-      event.preventDefault();
-      const name = document.getElementById('commenterName').value.trim();
-      const text = document.getElementById('commentText').value.trim();
-      if (!name || !text) return;
-      renderComments(saveComment(name, text));
-      document.getElementById('commentForm').reset();
-    }
-
-    // ⚡ INICIO — CARGAR TODO AL ABRIR LA PÁGINA
-    document.addEventListener('DOMContentLoaded', () => {
-      cargarTodoAlIniciar();
-      renderComments(loadComments());
+    document.getElementById('commentForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const nombre = document.getElementById('commenterName').value.trim();
+      const texto = document.getElementById('commentText').value.trim();
+      if (!nombre || !texto) return;
+      renderizarComentarios(guardarComentario(nombre, texto));
+      e.target.reset();
     });
 
-    // Permitir entrar con Enter en la contraseña
-    document.addEventListener('keydown', (e) => {
+    // Enter para entrar
+    document.addEventListener('keydown', e => {
       if (e.key === 'Enter' && document.getElementById('adminLoginModal').style.display === 'flex') {
-        verifyPassword();
+        verificarContrasena();
       }
+    });
+
+    // ⚡ INICIO
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarAlIniciar();
+      renderizarComentarios(cargarComentarios());
     });
   </script>
 </body>
